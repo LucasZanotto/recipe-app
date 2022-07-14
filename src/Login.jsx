@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const seis = 6;
+  const re = /\S+@\S+\.\S+/;
+
+  const history = useHistory();
+
+  const handleSubmit = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('mealsToken', '1');
+    localStorage.setItem('cocktailsToken', '1');
+    history.push('/foods');
+  };
+
   return (
     <div>
       <label htmlFor="email">
@@ -35,7 +47,8 @@ export default function Login() {
       <button
         data-testid="login-submit-btn"
         type="button"
-        disabled={ !(email.length > seis && password.length > seis) }
+        disabled={ !(re.test(email) && password.length > seis) }
+        onClick={ handleSubmit }
       >
         Entrar
       </button>
