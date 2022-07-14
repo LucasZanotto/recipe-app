@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header';
 
-const FoodRecipes = () => {
+const Drink = () => {
   const sla = 'sla';
   return (
     <>
@@ -12,4 +12,4 @@ const FoodRecipes = () => {
   );
 };
 
-export default FoodRecipes;
+export default Drink;
