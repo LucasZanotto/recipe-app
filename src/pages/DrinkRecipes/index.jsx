@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Context from '../../context/context';
 import Header from '../Header';
 
-const FoodRecipes = () => {
+const DrinkRecipes = () => {
   const { recipes } = useContext(Context);
   const maxRecipesLength = 12;
 
@@ -12,7 +12,7 @@ const FoodRecipes = () => {
       <Header />
       <h1>Food Recipes</h1>
       {
-        recipes.length === 1 && <Redirect to={ `/foods/${recipes[0].idMeal}` } />
+        recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
       }
 
       {
@@ -20,18 +20,18 @@ const FoodRecipes = () => {
           if (index < maxRecipesLength) {
             return (
               <div
-                key={ recipe.idMeal }
+                key={ recipe.idDrink }
                 data-testid={ `${index}-recipe-card` }
               >
                 <p
                   data-testid={ `${index}-card-name` }
                 >
-                  {recipe.strMeal}
+                  {recipe.strDrink}
 
                 </p>
                 <img
-                  src={ recipe.strMealThumb }
-                  alt={ recipe.strMeal }
+                  src={ recipe.strDrinkThumb }
+                  alt={ recipe.strDrink }
                   width="100px"
                   data-testid={ `${index}-card-img` }
                 />
@@ -45,4 +45,4 @@ const FoodRecipes = () => {
   );
 };
 
-export default FoodRecipes;
+export default DrinkRecipes;
