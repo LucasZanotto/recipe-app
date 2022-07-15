@@ -8,29 +8,32 @@ import Drink from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import Provider from './context/provider';
 
 function App() {
   return (
-    <Switch>
+    <Provider>
+      <Switch>
 
-      {/* <div className="meals">
-          <span className="logo">TRYBE</span>
-          <object
-            className="rocksGlass"
-            type="image/svg+xml"
-            data={ rockGlass }
-          >
-            Glass
-          </object>
-        </div> */}
+        {/* <div className="meals">
+    <span className="logo">TRYBE</span>
+    <object
+      className="rocksGlass"
+      type="image/svg+xml"
+      data={ rockGlass }
+    >
+      Glass
+    </object>
+  </div> */}
 
-      <Route exact path="/" component={ Login } />
-      <Route path="/foods" component={ FoodRecipes } />
-      <Route path="/drinks" component={ Drink } />
-      <Route path="/profile" component={ Profile } />
-      <Route path="/done-recipes" component={ DoneRecipes } />
-      <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-    </Switch>
+        <Route exact path="/" component={ Login } />
+        <Route path="/foods" component={ FoodRecipes } />
+        <Route path="/drinks" component={ Drink } />
+        <Route path="/profile" component={ Profile } />
+        <Route path="/done-recipes" component={ DoneRecipes } />
+        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+      </Switch>
+    </Provider>
   );
 }
 

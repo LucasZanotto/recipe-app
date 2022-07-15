@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import profileIcons from '../../images/profileIcon.svg';
 import searchProfileIcon from '../../images/searchIcon.svg';
+import SearchBar from './components/SearchBar';
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
-  const [inputSearch, setInputSearch] = useState('');
   const isLocation = useLocation();
   const history = useHistory();
   const pageNames = { '/foods': 'Foods', '/drinks': 'Drinks', '/profile': 'Profile' };
@@ -35,12 +35,7 @@ export default function Header() {
 
       {
         isSearch && (
-          <input
-            data-testid="search-input"
-            type="text"
-            onChange={ (e) => setInputSearch(e.target.value) }
-            value={ inputSearch }
-          />
+          <SearchBar />
         )
       }
 
