@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from '../Header';
+import Footer from '../../Components/Footer';
+import Header from '../../Components/Header';
 
 const Profile = () => {
   const sla = 'sla';
@@ -8,6 +9,7 @@ const Profile = () => {
       <Header />
       <h1>Profile</h1>
       <h1>{sla}</h1>
+      <Footer />
     </>
   );
 };

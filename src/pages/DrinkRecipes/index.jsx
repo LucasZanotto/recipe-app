@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import Context from '../../context/context';
-import Header from '../Header';
+import Header from '../../Components/Header';
+import Footer from '../../Components/Footer';
 
 const DrinkRecipes = () => {
   const { recipes } = useContext(Context);
@@ -41,6 +42,7 @@ const DrinkRecipes = () => {
           return null;
         })
       }
+      <Footer />
     </>
   );
 };
