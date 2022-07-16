@@ -38,28 +38,30 @@ const FoodRecipes = () => {
       >
         All
       </button>
-      {
-        filters.map((filter) => (
-          <button
-            key={ filter.strCategory }
-            type="button"
-            onClick={ () => {
-              if (activeFilter.includes(filter.strCategory)) {
-                getAllRecipes(pathname);
-                setActiveFilter('');
-                setIsFiltered(false);
-              } else {
-                getFilteredRecipes(pathname, filter.strCategory);
-                setIsFiltered(true);
-                setActiveFilter(filter.strCategory);
-              }
-            } }
-            data-testid={ `${filter.strCategory}-category-filter` }
-          >
-            {filter.strCategory}
-          </button>
-        ))
-      }
+      <div data-testid="btn-test">
+        {
+          filters.map((filter) => (
+            <button
+              key={ filter.strCategory }
+              type="button"
+              onClick={ () => {
+                if (activeFilter.includes(filter.strCategory)) {
+                  getAllRecipes(pathname);
+                  setActiveFilter('');
+                  setIsFiltered(false);
+                } else {
+                  getFilteredRecipes(pathname, filter.strCategory);
+                  setIsFiltered(true);
+                  setActiveFilter(filter.strCategory);
+                }
+              } }
+              data-testid={ `${filter.strCategory}-category-filter` }
+            >
+              {filter.strCategory}
+            </button>
+          ))
+        }
+      </div>
 
       <h1>Food Recipes</h1>
       {
