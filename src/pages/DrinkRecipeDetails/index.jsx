@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import HandleRecipeBtn from '../../Components/HandleRecipeBtn';
 import Context from '../../context/context';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
+import './style.css';
 
 const FoodRecipeDetails = () => {
   const [drinkInfo, setDrinkInfo] = useState([]);
@@ -18,10 +20,10 @@ const FoodRecipeDetails = () => {
     };
     arrayDetail();
   }, []);
-  console.log(drinkInfo);
 
   return (
     <>
+      <HandleRecipeBtn />
       <h1>teste drink recipe</h1>
       <img
         data-testid="recipe-photo"
@@ -53,14 +55,21 @@ const FoodRecipeDetails = () => {
         src={ drinkInfo.strYoutube }
         alt={ drinkInfo.strDrink }
       />
-      {
-        recipes.slice(0, seis).map((recommend, index) => (
-          <div key={ recommend.strMeal } data-testid={ `${index}-recomendation-card` }>
-            <img width="100px" src={ recommend.strMealThumb } alt="recommed" />
-            <p>{recommend.strMeal}</p>
-          </div>
-        ))
-      }
+      <div
+        className="carousel-details"
+      >
+        {
+          recipes.slice(0, seis).map((recommend, index) => (
+            <div
+              key={ `${recommend.strMeal}-${index}` }
+              data-testid={ `${index}-recomendation-card` }
+            >
+              <img width="100px" src={ recommend.strMealThumb } alt="recommed" />
+              <p data-testid={ `${index}-recomendation-title` }>{recommend.strMeal}</p>
+            </div>
+          ))
+        }
+      </div>
     </>
   );
 };

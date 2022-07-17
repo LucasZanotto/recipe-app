@@ -8,7 +8,13 @@ export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
   const isLocation = useLocation();
   const history = useHistory();
-  const pageNames = { '/foods': 'Foods', '/drinks': 'Drinks', '/profile': 'Profile' };
+  const pageNames = {
+    '/foods': 'Foods',
+    '/drinks': 'Drinks',
+    '/profile': 'Profile',
+    '/done-recipes': 'Done Recipes',
+    '/favorite-recipes': 'Favorite Recipes',
+  };
 
   return (
     <div>
@@ -21,7 +27,11 @@ export default function Header() {
         />
       </button>
       {
-        (isLocation.pathname !== '/profile') && (
+        (
+          isLocation.pathname !== '/profile'
+          && isLocation.pathname !== '/done-recipes'
+          && isLocation.pathname !== '/favorite-recipes'
+        ) && (
           <button type="button" onClick={ () => setIsSearch(!isSearch) }>
 
             <img

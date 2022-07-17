@@ -1,0 +1,6 @@
+.carousel-details {
+  display: flex;
+  gap: 1em;
+  overflow-x: scroll;
+  width: 190px;
+}

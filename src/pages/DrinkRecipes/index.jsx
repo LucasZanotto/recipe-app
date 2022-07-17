@@ -14,9 +14,8 @@ const DrinkRecipes = () => {
   const { pathname } = useLocation();
 
   const getFiltersApi = async () => {
-    const { drinks } = await getDrinksFilters();
-    const lengthFilters = 5;
-    setFilters(drinks.slice(0, lengthFilters));
+    const drinks = await getDrinksFilters();
+    setFilters(drinks);
   };
 
   useEffect(() => {
@@ -72,9 +71,8 @@ const DrinkRecipes = () => {
         recipes.slice(0, maxRecipesLength).map((recipe, index) => {
           if (recipe.idDrink) {
             return (
-              <Link to={ `/drinks/${recipe.idDrink}` }>
+              <Link key={ recipe.idDrink } to={ `/drinks/${recipe.idDrink}` }>
                 <div
-                  key={ recipe.idDrink }
                   data-testid={ `${index}-recipe-card` }
                 >
                   <p

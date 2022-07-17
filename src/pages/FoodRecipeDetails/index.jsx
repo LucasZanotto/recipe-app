@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import HandleRecipeBtn from '../../Components/HandleRecipeBtn';
 import Context from '../../context/context';
 import getFoodDetails from '../../services/api/getFoodDetails';
+import './style.css';
 
 const FoodRecipeDetails = () => {
   const [foodInfo, setFoodInfo] = useState([]);
@@ -18,10 +20,10 @@ const FoodRecipeDetails = () => {
     };
     arrayDetail();
   }, []);
-  console.log(foodInfo);
 
   return (
     <>
+      <HandleRecipeBtn />
       <h1>teste food recipe</h1>
       <img
         data-testid="recipe-photo"
@@ -34,7 +36,10 @@ const FoodRecipeDetails = () => {
       {
         Object.keys(foodInfo)
           .filter((a) => a.includes('strIngredient')).map((info, index) => (
-            <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+            <div
+              key={ `ingredient-${index}` }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
               <p>
                 { foodInfo[info]
                 && `${foodInfo[info]} : ${foodInfo[`strMeasure${index + 1}`]}`}
@@ -49,14 +54,21 @@ const FoodRecipeDetails = () => {
         type="video/webm"
         src={ foodInfo.strYoutube }
       />
-      {
-        recipes.slice(0, seis).map((recommend, index) => (
-          <div key={ recommend.strDrink } data-testid={ `${index}-recomendation-card` }>
-            <img width="100px" src={ recommend.strDrinkThumb } alt="recommed" />
-            <p>{recommend.strDrink}</p>
-          </div>
-        ))
-      }
+      <div
+        className="carousel-details"
+      >
+        {
+          recipes.slice(0, seis).map((recommend, index) => (
+            <div
+              key={ `${recommend.strDrink}-${index}` }
+              data-testid={ `${index}-recomendation-card` }
+            >
+              <img width="100px" src={ recommend.strDrinkThumb } alt="recommed" />
+              <p data-testid={ `${index}-recomendation-title` }>{recommend.strDrink}</p>
+            </div>
+          ))
+        }
+      </div>
     </>
   );
 };

@@ -14,9 +14,8 @@ const FoodRecipes = () => {
   const { pathname } = useLocation();
 
   const getFiltersApi = async () => {
-    const { meals } = await getFoodsFilters();
-    const lengthFilters = 5;
-    setFilters(meals.slice(0, lengthFilters));
+    const meals = await getFoodsFilters();
+    setFilters(meals);
   };
 
   useEffect(() => {
@@ -40,9 +39,9 @@ const FoodRecipes = () => {
       </button>
       <div data-testid="btn-test">
         {
-          filters.map((filter) => (
+          filters.map((filter, index) => (
             <button
-              key={ filter.strCategory }
+              key={ `${filter.strCategory}${index}` }
               type="button"
               onClick={ () => {
                 if (activeFilter.includes(filter.strCategory)) {
@@ -74,9 +73,12 @@ const FoodRecipes = () => {
         recipes.slice(0, maxRecipesLength).map((recipe, index) => {
           if (recipe.idMeal) {
             return (
-              <Link to={ `/foods/${recipe.idMeal}` }>
+              <Link
+                key={ recipe.idMeal }
+                to={ `/foods/${recipe.idMeal}` }
+                data-testid="recipe-card"
+              >
                 <div
-                  key={ recipe.idMeal }
                   data-testid={ `${index}-recipe-card` }
                 >
                   <p
