@@ -6,7 +6,7 @@ import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
 import './style.css';
 
-const RecipeDetails = () => {
+const RecipeInProgress = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
   const { pathname } = useLocation();
   const { getAllRecipes, recipes } = useContext(Context);
@@ -14,7 +14,7 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     const arrayDetail = async () => {
-      const idIndex = -1;
+      const idIndex = -2;
 
       if (pathname.includes('foods')) {
         const { meals } = await getFoodDetails(pathname.split('/').at(idIndex));
@@ -32,7 +32,7 @@ const RecipeDetails = () => {
   return (
     <>
       <HandleRecipeBtn />
-      <h1>teste recipe</h1>
+      <h1>em progresso</h1>
 
       {
         pathname.includes('foods') ? (
@@ -81,37 +81,12 @@ const RecipeDetails = () => {
       }
 
       <p data-testid="instructions">{recipeInfo.strInstructions}</p>
-
-      {
-        recipeInfo.strYoutube ? (
-          <iframe
-            data-testid="video"
-            title={ recipeInfo.strYoutube }
-            width="420"
-            height="315"
-            src={ recipeInfo.strYoutube.replace('watch?v=', 'embed/') }
-            frameBorder="0"
-            allowFullScreen
-          />
-        ) : (
-          <iframe
-            data-testid="video"
-            title={ recipeInfo.strYoutube }
-            width="420"
-            height="315"
-            src={ recipeInfo.strYoutube }
-            frameBorder="0"
-            allowFullScreen
-          />
-        )
-      }
-
-      {/* <embed
+      <embed
         data-testid="video"
         width="300px"
         type="video/webm"
         src={ recipeInfo.strYoutube }
-      /> */}
+      />
 
       <div
         className="carousel-details"
@@ -144,4 +119,4 @@ const RecipeDetails = () => {
   );
 };
 
-export default RecipeDetails;
+export default RecipeInProgress;
