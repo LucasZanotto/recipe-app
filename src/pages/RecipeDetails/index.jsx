@@ -13,6 +13,7 @@ const copy = require('clipboard-copy');
 
 const RecipeDetails = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
+  const [body, setBody] = useState({});
   const [shared, setShared] = useState(false);
   const [fav, setFav] = useState(false);
   const { pathname } = useLocation();
@@ -49,19 +50,49 @@ const RecipeDetails = () => {
         .some((info) => (info.id) === pathname.split('/').at(idIndex));
       setFav(isFav);
     }
+
+    const categoryLs = (Object.keys(recipeInfo).at(0));
+
+    if (categoryLs === 'idMeal') {
+      const foodBody = {
+        alcoholicOrNot: '',
+        category: recipeInfo.strCategory,
+        id: recipeInfo.idMeal,
+        image: recipeInfo.strMealThumb,
+        name: recipeInfo.strMeal,
+        nationality: recipeInfo.strArea,
+        type: 'food',
+      };
+      setBody(foodBody);
+    } else {
+      const drinkBody = {
+        alcoholicOrNot: recipeInfo.strAlcoholic,
+        category: recipeInfo.strCategory,
+        id: recipeInfo.idDrink,
+        image: recipeInfo.strDrinkThumb,
+        name: recipeInfo.strDrink,
+        nationality: '',
+        type: 'drink',
+      };
+      setBody(drinkBody);
+    }
   }, [recipeInfo]);
+
+  console.log(recipeInfo);
 
   const handleFav = () => {
     const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const categoryLs = (Object.keys(recipeInfo).at(0));
-    if (!favListLS && Object.keys(recipeInfo).includes(categoryLs)) {
-      const firstList = [{ id: recipeInfo[categoryLs] }];
+
+    if ((!favListLS) && Object.keys(recipeInfo).includes(categoryLs)) {
+      const firstList = [body];
       localStorage.setItem('favoriteRecipes', JSON.stringify(firstList));
+      setFav(true);
     } else if (favListLS && Object.keys(recipeInfo).includes(categoryLs)) {
       const isFav = favListLS
         .some((info) => (info.id) === recipeInfo[categoryLs]);
       if (!isFav) {
-        favListLS.push({ id: recipeInfo[categoryLs] });
+        favListLS.push(body);
         localStorage.setItem('favoriteRecipes', JSON.stringify(favListLS));
         setFav(!isFav);
       } else {
@@ -111,6 +142,7 @@ const RecipeDetails = () => {
       <button
         data-testid="share-btn"
         type="button"
+        src={ imageComp }
         onClick={ () => {
           setShared(!shared);
           copy(`http://localhost:3000${pathname}`);
@@ -118,33 +150,30 @@ const RecipeDetails = () => {
       >
         <img src={ imageComp } alt="sla" />
       </button>
+
       { (fav) ? (
-        <button type="button" onClick={ handleFav }>
+        <button
+          data-testid="favorite-btn"
+          src={ blackHeart }
+          type="button"
+          onClick={ handleFav }
+        >
           <img src={ blackHeart } alt="black" />
         </button>
       ) : (
         <button
           data-testid="favorite-btn"
+          src={ whiteHeart }
           type="button"
           onClick={ handleFav }
         >
           <img src={ whiteHeart } alt="white" />
         </button>
       )}
+
       {
         shared && <p>Link copied!</p>
       }
-      {/* [
-        {
-      "id":"178319",
-      "type":"drink",
-      "nationality":"",
-      "category":"Cocktail",
-      "alcoholicOrNot":"Alcoholic",
-      "name":"Aquamarine",
-      "image":"https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg"
-      }
-      ] */}
 
       {
         Object.keys(recipeInfo)
@@ -186,13 +215,6 @@ const RecipeDetails = () => {
           />
         )
       }
-
-      {/* <embed
-        data-testid="video"
-        width="300px"
-        type="video/webm"
-        src={ recipeInfo.strYoutube }
-      /> */}
 
       <div
         className="carousel-details"
