@@ -57,7 +57,7 @@ describe('Testando a tela de drinkRecipes', () => {
     const stay2 = await screen.findByTestId('food-bottom-btn');
     // expect(fiveGG).toBeNull()
     
-    screen.logTestingPlaygroundURL()
+    // screen.logTestingPlaygroundURL()
     
     const searchIcon = screen.getByTestId('search-top-btn');
     expect(searchIcon).toBeInTheDocument();
@@ -81,10 +81,6 @@ describe('Testando a tela de drinkRecipes', () => {
     const recipeFiltered = await screen.findByTestId('recipe-title')
     expect(recipeFiltered).toBeInTheDocument();
 
-
-
-    
-    
     global.fetch = fetchBackup
   });
 });

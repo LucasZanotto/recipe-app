@@ -36,10 +36,14 @@ const FoodRecipeDetails = () => {
         <p>{drinkInfo.strCategory}</p>
         <p>{drinkInfo.strAlcoholic}</p>
       </div>
+
       {
         Object.keys(drinkInfo)
           .filter((a) => a.includes('strIngredient')).map((info, index) => (
-            <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+            <div
+              key={ index }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
               <p>
                 { drinkInfo[info]
                 && `${drinkInfo[info]} : ${drinkInfo[`strMeasure${index + 1}`]}`}
@@ -47,6 +51,7 @@ const FoodRecipeDetails = () => {
             </div>
           ))
       }
+
       <p data-testid="instructions">{drinkInfo.strInstructions}</p>
       <embed
         data-testid="video"
@@ -55,6 +60,7 @@ const FoodRecipeDetails = () => {
         src={ drinkInfo.strYoutube }
         alt={ drinkInfo.strDrink }
       />
+
       <div
         className="carousel-details"
       >
@@ -70,6 +76,7 @@ const FoodRecipeDetails = () => {
           ))
         }
       </div>
+
     </>
   );
 };

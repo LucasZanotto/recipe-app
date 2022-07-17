@@ -78,7 +78,7 @@ describe('Testando a tela de foodRecipes', () => {
     const recipeFiltered = await screen.findByTestId('recipe-title')
     expect(recipeFiltered).toBeInTheDocument();
     
-    screen.logTestingPlaygroundURL()
+    // screen.logTestingPlaygroundURL()
 
     global.fetch = fetchBackup
   });
