@@ -19,9 +19,9 @@ describe('Testando a tela de login', () => {
     const inputText = screen.getByTestId('search-input')
     expect(inputText).toBeInTheDocument();
 
-    const ingredientRadio = screen.getByTestId('name-search-radio');
-    expect(ingredientRadio).toBeInTheDocument();
-    userEvent.click(ingredientRadio);
+    const nameRadio = screen.getByTestId('name-search-radio');
+    expect(nameRadio).toBeInTheDocument();
+    userEvent.click(nameRadio);
 
     userEvent.type(inputText, 'Bubble & Squeak');
     expect(inputText.value).toBe('Bubble & Squeak')
