@@ -48,8 +48,7 @@ describe('Testando a tela de foodRecipes', () => {
 
     const fourCorba = await screen.findByText('Corba')
     expect(fourCorba).toBeInTheDocument();
-    // screen.logTestingPlaygroundURL()
-
+    
     const btnDrinks = await screen.findByTestId('drinks-bottom-btn');
     userEvent.click(btnDrinks);
     const btnFoods = await screen.findByTestId('food-bottom-btn');
@@ -62,7 +61,7 @@ describe('Testando a tela de foodRecipes', () => {
     const searchIcon = screen.getByTestId('search-top-btn');
     expect(searchIcon).toBeInTheDocument();
     userEvent.click(searchIcon);
-
+    
     const nameRadio = screen.getByTestId('name-search-radio');
     expect(nameRadio).toBeInTheDocument();
     userEvent.click(nameRadio);
@@ -78,8 +77,9 @@ describe('Testando a tela de foodRecipes', () => {
 
     const recipeFiltered = await screen.findByTestId('recipe-title')
     expect(recipeFiltered).toBeInTheDocument();
+    
+    screen.logTestingPlaygroundURL()
 
-
-  global.fetch = fetchBackup
+    global.fetch = fetchBackup
   });
 });
