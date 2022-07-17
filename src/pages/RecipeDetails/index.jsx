@@ -4,10 +4,17 @@ import HandleRecipeBtn from '../../Components/HandleRecipeBtn';
 import Context from '../../context/context';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
+import imageComp from '../../images/shareIcon.svg';
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
 import './style.css';
+
+const copy = require('clipboard-copy');
 
 const RecipeDetails = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
+  const [shared, setShared] = useState(false);
+  const [fav, setFav] = useState(false);
   const { pathname } = useLocation();
   const { getAllRecipes, recipes } = useContext(Context);
   const recommendLength = 6;
@@ -28,6 +35,43 @@ const RecipeDetails = () => {
     };
     arrayDetail();
   }, [pathname]);
+
+  useEffect(() => {
+    const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const idIndex = -1;
+    if (favListLS && Object.keys(recipeInfo).includes('idMeal')) {
+      const isFav = favListLS
+        .some((info) => (info.id) === pathname.split('/').at(idIndex));
+      setFav(isFav);
+    }
+    if (favListLS && Object.keys(recipeInfo).includes('idDrink')) {
+      const isFav = favListLS
+        .some((info) => (info.id) === pathname.split('/').at(idIndex));
+      setFav(isFav);
+    }
+  }, [recipeInfo]);
+
+  const handleFav = () => {
+    const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const categoryLs = (Object.keys(recipeInfo).at(0));
+    if (!favListLS && Object.keys(recipeInfo).includes(categoryLs)) {
+      const firstList = [{ id: recipeInfo[categoryLs] }];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(firstList));
+    } else if (favListLS && Object.keys(recipeInfo).includes(categoryLs)) {
+      const isFav = favListLS
+        .some((info) => (info.id) === recipeInfo[categoryLs]);
+      if (!isFav) {
+        favListLS.push({ id: recipeInfo[categoryLs] });
+        localStorage.setItem('favoriteRecipes', JSON.stringify(favListLS));
+        setFav(!isFav);
+      } else {
+        const removeFav = favListLS
+          .filter((recipe) => (recipe.id !== recipeInfo[categoryLs]));
+        localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
+        setFav(!isFav);
+      }
+    }
+  };
 
   return (
     <>
@@ -64,6 +108,43 @@ const RecipeDetails = () => {
           </div>
         )
       }
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ () => {
+          setShared(!shared);
+          copy(`http://localhost:3000${pathname}`);
+        } }
+      >
+        <img src={ imageComp } alt="sla" />
+      </button>
+      { (fav) ? (
+        <button type="button" onClick={ handleFav }>
+          <img src={ blackHeart } alt="black" />
+        </button>
+      ) : (
+        <button
+          data-testid="favorite-btn"
+          type="button"
+          onClick={ handleFav }
+        >
+          <img src={ whiteHeart } alt="white" />
+        </button>
+      )}
+      {
+        shared && <p>Link copied!</p>
+      }
+      {/* [
+        {
+      "id":"178319",
+      "type":"drink",
+      "nationality":"",
+      "category":"Cocktail",
+      "alcoholicOrNot":"Alcoholic",
+      "name":"Aquamarine",
+      "image":"https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg"
+      }
+      ] */}
 
       {
         Object.keys(recipeInfo)

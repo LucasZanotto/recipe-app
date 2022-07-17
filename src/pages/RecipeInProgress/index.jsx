@@ -81,12 +81,29 @@ const RecipeInProgress = () => {
       }
 
       <p data-testid="instructions">{recipeInfo.strInstructions}</p>
-      <embed
-        data-testid="video"
-        width="300px"
-        type="video/webm"
-        src={ recipeInfo.strYoutube }
-      />
+      {
+        recipeInfo.strYoutube ? (
+          <iframe
+            data-testid="video"
+            title={ recipeInfo.strYoutube }
+            width="420"
+            height="315"
+            src={ recipeInfo.strYoutube.replace('watch?v=', 'embed/') }
+            frameBorder="0"
+            allowFullScreen
+          />
+        ) : (
+          <iframe
+            data-testid="video"
+            title={ recipeInfo.strYoutube }
+            width="420"
+            height="315"
+            src={ recipeInfo.strYoutube }
+            frameBorder="0"
+            allowFullScreen
+          />
+        )
+      }
 
       <div
         className="carousel-details"
