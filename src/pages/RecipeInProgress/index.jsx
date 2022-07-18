@@ -11,6 +11,10 @@ const RecipeInProgress = () => {
   const { pathname } = useLocation();
   const { getAllRecipes, recipes } = useContext(Context);
   const recommendLength = 6;
+  const [ingredientsCheck, setIngredientsCheck] = useState([]);
+  const [storagePrev, setStoragePrev] = useState();
+  const [cat, setCat] = useState();
+  const [recipeId, setRecipeId] = useState();
 
   useEffect(() => {
     const arrayDetail = async () => {
@@ -28,6 +32,75 @@ const RecipeInProgress = () => {
     };
     arrayDetail();
   }, [pathname]);
+
+  const handleCheck = (ingredientAndMeasure) => {
+    console.log(storagePrev);
+    if (!ingredientsCheck.includes(ingredientAndMeasure)) {
+      const body = {
+        ...storagePrev,
+        [cat]: {
+          ...storagePrev[cat],
+          [recipeId]: [...ingredientsCheck, ingredientAndMeasure],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(body));
+      setIngredientsCheck([...ingredientsCheck, ingredientAndMeasure]);
+    }
+
+    if (ingredientsCheck.includes(ingredientAndMeasure)) {
+      setIngredientsCheck(ingredientsCheck
+        .filter((ingredient) => ingredient !== ingredientAndMeasure));
+      const body = {
+        ...storagePrev,
+        [cat]: {
+          ...storagePrev[cat],
+          [recipeId]: ingredientsCheck
+            .filter((ingredient) => ingredient !== ingredientAndMeasure),
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(body));
+    }
+  };
+
+  const checkRender = (ingredientAndMeasure) => {
+    if (ingredientsCheck.includes(ingredientAndMeasure)) {
+      return (<input
+        onChange={ () => handleCheck(ingredientAndMeasure) }
+        type="checkbox"
+        checked
+      />
+      );
+    }
+
+    return (<input
+      onChange={ () => handleCheck(ingredientAndMeasure) }
+      type="checkbox"
+    />
+    );
+  };
+
+  useEffect(() => {
+    const ingredientsLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (Object.keys(recipeInfo)[0] === 'idMeal'
+      && ingredientsLS.meals[recipeInfo.idMeal]) {
+      setIngredientsCheck(ingredientsLS.meals[recipeInfo.idMeal]);
+    }
+
+    if (Object.keys(recipeInfo)[0] === 'idMeal') {
+      setCat('meals');
+      setRecipeId(recipeInfo.idMeal);
+    }
+    if (Object.keys(recipeInfo)[0] === 'idDrink') {
+      setCat('cocktails');
+      setRecipeId(recipeInfo.idDrink);
+    }
+
+    setStoragePrev(ingredientsLS);
+  }, [recipeInfo]);
+
+  useEffect(() => {
+    console.log(ingredientsCheck);
+  }, [ingredientsCheck]);
 
   return (
     <>
@@ -67,17 +140,25 @@ const RecipeInProgress = () => {
 
       {
         Object.keys(recipeInfo)
-          .filter((a) => a.includes('strIngredient')).map((info, index) => (
-            <div
-              key={ `ingredient-${index}` }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              <p>
-                { recipeInfo[info]
-                && `${recipeInfo[info]} : ${recipeInfo[`strMeasure${index + 1}`]}`}
-              </p>
-            </div>
-          ))
+          .filter((a) => a.includes('strIngredient')).map((info, index) => {
+            const ingredientRecipe = `${recipeInfo[info]} - `;
+            const measureRecipe = `${recipeInfo[`strMeasure${index + 1}`]}`;
+            const ingredientAndMeasure = ingredientRecipe + measureRecipe;
+
+            const thisCheck = checkRender(ingredientAndMeasure);
+            return (
+              <div
+                key={ `ingredient-${index}` }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {thisCheck}
+                <p>
+                  { recipeInfo[info]
+                && `${recipeInfo[info]} - ${recipeInfo[`strMeasure${index + 1}`]}`}
+                </p>
+              </div>
+            );
+          })
       }
 
       <p data-testid="instructions">{recipeInfo.strInstructions}</p>
