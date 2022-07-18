@@ -52,7 +52,6 @@ const RecipeDetails = () => {
     }
 
     const categoryLs = (Object.keys(recipeInfo).at(0));
-
     if (categoryLs === 'idMeal') {
       const foodBody = {
         alcoholicOrNot: '',
@@ -77,8 +76,6 @@ const RecipeDetails = () => {
       setBody(drinkBody);
     }
   }, [recipeInfo]);
-
-  console.log(recipeInfo);
 
   const handleFav = () => {
     const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -108,7 +105,6 @@ const RecipeDetails = () => {
     <>
       <HandleRecipeBtn />
       <h1>teste recipe</h1>
-
       {
         pathname.includes('foods') ? (
           <div>
@@ -155,6 +151,7 @@ const RecipeDetails = () => {
         <button
           data-testid="favorite-btn"
           src={ blackHeart }
+          alt="blackheart"
           type="button"
           onClick={ handleFav }
         >
@@ -164,6 +161,7 @@ const RecipeDetails = () => {
         <button
           data-testid="favorite-btn"
           src={ whiteHeart }
+          alt="whiteHeart"
           type="button"
           onClick={ handleFav }
         >
@@ -171,9 +169,7 @@ const RecipeDetails = () => {
         </button>
       )}
 
-      {
-        shared && <p>Link copied!</p>
-      }
+      {shared && <p>Link copied!</p>}
 
       {
         Object.keys(recipeInfo)
