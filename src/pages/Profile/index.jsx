@@ -5,11 +5,13 @@ import Header from '../../Components/Header';
 
 const Profile = () => {
   const history = useHistory();
-  const emailInfo = JSON.parse(localStorage.getItem('user')).email;
+  const emailInfo = JSON.parse(localStorage.getItem('user'));
   return (
     <>
       <Header />
-      <h1 data-testid="profile-email">{emailInfo}</h1>
+      <h1 data-testid="profile-email">
+        {emailInfo && emailInfo.username}
+      </h1>
       <button
         data-testid="profile-done-btn"
         type="button"
