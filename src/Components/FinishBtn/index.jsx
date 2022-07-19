@@ -1,37 +1,48 @@
 import React from 'react';
 // import React, { useState } from 'react';
 import PropTypes, { string } from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const FinishBtn = (props) => {
   const history = useHistory();
-  const location = 
+  const { pathname } = useLocation();
+
   const { ingredientsCheck, recipeInfo } = props;
 
   const updateRecipes = () => {
     const today = new Date();
-    const doneDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+    const doneDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
 
-    if (history.location.pathname)
+    const verifyCat = () => (pathname.includes('foods') ? 'Meal' : 'Drink');
+
     const {
-      idMeal: id,
+      [`id${verifyCat()}`]: id,
       strArea: nationality,
       strCategory: category,
-      strMeal: name,
-      strMealThumb: image,
+      [`str${verifyCat()}`]: name,
+      [`str${verifyCat()}Thumb`]: image,
       strTags: tags,
     } = recipeInfo;
+
     const recipe = {
       id,
       nationality,
       category,
-      alcoholicOrNot: '',
       name,
       image,
       doneDate,
       tags,
-      type: 'food',
     };
+
+    if (pathname.includes('foods')) {
+      recipe.alcoholicOrNot = '';
+      recipe.type = 'food';
+    } else {
+      recipe.alcoholicOrNot = recipeInfo.strAlcoholic;
+      recipe.type = 'drink';
+      recipe.nationality = '';
+      recipe.tags = [];
+    }
 
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     if (doneRecipes) {
