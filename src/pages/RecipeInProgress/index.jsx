@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Context from '../../context/context';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
 import imageComp from '../../images/shareIcon.svg';
@@ -9,9 +8,7 @@ import blackHeart from '../../images/blackHeartIcon.svg';
 import './style.css';
 import handleFav from '../../services/handleFav';
 import handleCheck from '../../services/handleCheck';
-import checkRender from '../../services/CheckRender';
 import FinishBtn from '../../Components/FinishBtn';
-import CheckRender from '../../services/CheckRender';
 
 const copy = require('clipboard-copy');
 
@@ -21,7 +18,6 @@ const RecipeInProgress = () => {
   const [fav, setFav] = useState(false);
   const [shared, setShared] = useState(false);
   const { pathname } = useLocation();
-  const { getAllRecipes } = useContext(Context);
   const [ingredientsCheck, setIngredientsCheck] = useState([]);
   const [storagePrev, setStoragePrev] = useState();
   const [cat, setCat] = useState();
@@ -30,20 +26,16 @@ const RecipeInProgress = () => {
   useEffect(() => {
     const arrayDetail = async () => {
       const idIndex = -2;
-
       if (pathname.includes('foods')) {
         const { meals } = await getFoodDetails(pathname.split('/').at(idIndex));
         setRecipeInfo(meals[0]);
-        getAllRecipes('/drinks');
       } else {
         const { drinks } = await getDrinkDetails(pathname.split('/').at(idIndex));
         setRecipeInfo(drinks[0]);
-        getAllRecipes('/foods');
       }
     };
     arrayDetail();
   }, [pathname]);
-
   useEffect(() => {
     const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const idIndex = -2;
@@ -57,7 +49,6 @@ const RecipeInProgress = () => {
         .some((info) => (info.id) === pathname.split('/').at(idIndex));
       setFav(isFav);
     }
-
     const categoryLs = (Object.keys(recipeInfo).at(0));
     if (categoryLs === 'idMeal') {
       const foodBody = {
@@ -83,17 +74,6 @@ const RecipeInProgress = () => {
       setBody(drinkBody);
     }
   }, [recipeInfo]);
-
-  const checking = (ingredientAndMeasure) => {
-    handleCheck({
-      setIngredientsCheck,
-      ingredientsCheck,
-      ingredientAndMeasure,
-      storagePrev,
-      cat,
-      recipeId });
-  };
-
   useEffect(() => {
     if (Object.keys(recipeInfo)[0] === 'idMeal') {
       setCat('meals');
@@ -119,6 +99,33 @@ const RecipeInProgress = () => {
     }
     setStoragePrev(ingredientsLS);
   }, [recipeInfo]);
+  const checking = (ingredientAndMeasure) => {
+    handleCheck({
+      setIngredientsCheck,
+      ingredientsCheck,
+      ingredientAndMeasure,
+      storagePrev,
+      cat,
+      recipeId });
+  };
+  const checkRender = (ingredientAndMeasure) => {
+    if (ingredientsCheck.includes(ingredientAndMeasure)) {
+      return (<input
+        onChange={ () => {
+          checking(ingredientAndMeasure);
+          console.log('teste');
+        } }
+        type="checkbox"
+        defaultChecked
+      />
+      );
+    }
+    return (<input
+      onChange={ () => checking(ingredientAndMeasure) }
+      type="checkbox"
+    />
+    );
+  };
 
   return (
     <>
@@ -204,11 +211,7 @@ const RecipeInProgress = () => {
                   key={ `ingredient-${index}` }
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  <CheckRender
-                    ingredientAndMeasure={ ingredientAndMeasure }
-                    ingredientsCheck={ ingredientsCheck }
-                    checking={ checking }
-                  />
+                  {() => checkRender(ingredientAndMeasure)}
                   <p>
                     { recipeInfo[info]
                     && `${recipeInfo[info]} - ${recipeInfo[`strMeasure${index + 1}`]}`}
@@ -228,7 +231,6 @@ const RecipeInProgress = () => {
             width="420"
             height="315"
             src={ recipeInfo.strYoutube.replace('watch?v=', 'embed/') }
-            frameBorder="0"
             allowFullScreen
           />
         ) : (
@@ -238,7 +240,6 @@ const RecipeInProgress = () => {
             width="420"
             height="315"
             src={ recipeInfo.strYoutube }
-            frameBorder="0"
             allowFullScreen
           />
         )
