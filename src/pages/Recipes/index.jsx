@@ -28,7 +28,6 @@ const Recipes = () => {
 
   useEffect(() => {
     getAllRecipes(pathname);
-    console.log(pathname);
     if (pathname === '/drinks') {
       setCategory('Drink');
       getDrinkFiltersApi();
