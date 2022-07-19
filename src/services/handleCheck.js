@@ -3,7 +3,6 @@ const handleCheck = (obj) => {
     storagePrev, cat, recipeId } = obj;
 
   if (!ingredientsCheck.includes(ingredientAndMeasure)) {
-    console.log('teste');
     const bodyObj = {
       ...storagePrev,
       [cat]: {

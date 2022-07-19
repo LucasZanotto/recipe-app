@@ -5,7 +5,7 @@ import Header from '../../Components/Header';
 
 const Profile = () => {
   const history = useHistory();
-  const emailInfo = localStorage.getItem('user');
+  const emailInfo = JSON.parse(localStorage.getItem('user')).email;
   return (
     <>
       <Header />

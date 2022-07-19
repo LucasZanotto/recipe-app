@@ -47,7 +47,6 @@ export default function HandleRecipeBtn() {
 
   const handleCLick = () => {
     setIsStarted(true);
-
     history.push(`/${category}/${id}/in-progress`);
   };
 

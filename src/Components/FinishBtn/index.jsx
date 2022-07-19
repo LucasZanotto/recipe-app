@@ -18,8 +18,6 @@ const FinishBtn = (props) => {
   const lastIndex = -1;
   const ingredientsLength = counter.filter((n) => n).at(lastIndex) + 1;
 
-  console.log(ingredientsCheck.length, ingredientsLength);
-
   if (ingredientsCheck && (ingredientsCheck.length !== ingredientsLength)) {
     return (
       <button

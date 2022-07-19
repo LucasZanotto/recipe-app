@@ -22,7 +22,6 @@ const RecipeInProgress = () => {
   const [storagePrev, setStoragePrev] = useState();
   const [cat, setCat] = useState();
   const [recipeId, setRecipeId] = useState();
-
   useEffect(() => {
     const arrayDetail = async () => {
       const idIndex = -2;
@@ -108,12 +107,12 @@ const RecipeInProgress = () => {
       cat,
       recipeId });
   };
-  const checkRender = (ingredientAndMeasure) => {
+  const checkRender = (ingredientAndMeasure, index) => {
     if (ingredientsCheck.includes(ingredientAndMeasure)) {
       return (<input
+        data-testid={ `checkbox-${index}` }
         onChange={ () => {
           checking(ingredientAndMeasure);
-          console.log('teste');
         } }
         type="checkbox"
         defaultChecked
@@ -121,12 +120,12 @@ const RecipeInProgress = () => {
       );
     }
     return (<input
+      data-testid={ `checkbox-${index}` }
       onChange={ () => checking(ingredientAndMeasure) }
       type="checkbox"
     />
     );
   };
-
   return (
     <>
       <FinishBtn ingredientsCheck={ ingredientsCheck } recipeInfo={ recipeInfo } />
@@ -204,7 +203,7 @@ const RecipeInProgress = () => {
             const ingredientRecipe = `${recipeInfo[info]} - `;
             const measureRecipe = `${recipeInfo[`strMeasure${index + 1}`]}`;
             const ingredientAndMeasure = ingredientRecipe + measureRecipe;
-            const checkbox = checkRender(ingredientAndMeasure);
+            const checkbox = checkRender(ingredientAndMeasure, index);
             if (recipeInfo[info] && recipeInfo[info].length > 1) {
               return (
                 <div
