@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import HandleRecipeBtn from '../../Components/HandleRecipeBtn';
 import Context from '../../context/context';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
@@ -9,8 +8,7 @@ import './style.css';
 const RecipeInProgress = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
   const { pathname } = useLocation();
-  const { getAllRecipes, recipes } = useContext(Context);
-  const recommendLength = 6;
+  const { getAllRecipes } = useContext(Context);
   const [ingredientsCheck, setIngredientsCheck] = useState([]);
   const [storagePrev, setStoragePrev] = useState();
   const [cat, setCat] = useState();
@@ -35,6 +33,7 @@ const RecipeInProgress = () => {
 
   const handleCheck = (ingredientAndMeasure) => {
     console.log(storagePrev);
+
     if (!ingredientsCheck.includes(ingredientAndMeasure)) {
       const body = {
         ...storagePrev,
@@ -80,12 +79,6 @@ const RecipeInProgress = () => {
   };
 
   useEffect(() => {
-    const ingredientsLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (Object.keys(recipeInfo)[0] === 'idMeal'
-      && ingredientsLS.meals[recipeInfo.idMeal]) {
-      setIngredientsCheck(ingredientsLS.meals[recipeInfo.idMeal]);
-    }
-
     if (Object.keys(recipeInfo)[0] === 'idMeal') {
       setCat('meals');
       setRecipeId(recipeInfo.idMeal);
@@ -93,6 +86,24 @@ const RecipeInProgress = () => {
     if (Object.keys(recipeInfo)[0] === 'idDrink') {
       setCat('cocktails');
       setRecipeId(recipeInfo.idDrink);
+    }
+
+    const ingredientsLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+    if (ingredientsLS && Object.keys(recipeInfo)[0] === 'idMeal'
+      && ingredientsLS.meals[recipeInfo.idMeal]) {
+      setIngredientsCheck(ingredientsLS.meals[recipeInfo.idMeal]);
+    }
+
+    if (ingredientsLS && Object.keys(recipeInfo)[0] === 'idDrink'
+      && ingredientsLS.cocktails[recipeInfo.idDrink]) {
+      setIngredientsCheck(ingredientsLS.cocktails[recipeInfo.idDrink]);
+    }
+
+    if (!ingredientsLS) {
+      const initialLS = { meals: {}, cocktails: {} };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(initialLS));
+      setStoragePrev({ meals: {}, cocktails: {} });
     }
 
     setStoragePrev(ingredientsLS);
@@ -104,7 +115,8 @@ const RecipeInProgress = () => {
 
   return (
     <>
-      <HandleRecipeBtn />
+      {/* <FinishRecipeBtn /> */}
+
       <h1>em progresso</h1>
 
       {
@@ -149,7 +161,7 @@ const RecipeInProgress = () => {
             return (
               <div
                 key={ `ingredient-${index}` }
-                data-testid={ `${index}-ingredient-name-and-measure` }
+                data-testid={ `${index}-ingredient-step` }
               >
                 {thisCheck}
                 <p>
@@ -168,33 +180,6 @@ const RecipeInProgress = () => {
         type="video/webm"
         src={ recipeInfo.strYoutube }
       />
-
-      <div
-        className="carousel-details"
-      >
-        {
-          pathname.includes('foods') ? (
-            recipes.slice(0, recommendLength).map((recommend, index) => (
-              <div
-                key={ `${recommend.strDrink}-${index}` }
-                data-testid={ `${index}-recomendation-card` }
-              >
-                <img width="100px" src={ recommend.strDrinkThumb } alt="recommed" />
-                <p data-testid={ `${index}-recomendation-title` }>{recommend.strDrink}</p>
-              </div>
-            ))
-          ) : (
-            recipes.slice(0, recommendLength).map((recommend, index) => (
-              <div
-                key={ `${recommend.strMeal}-${index}` }
-                data-testid={ `${index}-recomendation-card` }
-              >
-                <img width="100px" src={ recommend.strMealThumb } alt="recommed" />
-                <p data-testid={ `${index}-recomendation-title` }>{recommend.strMeal}</p>
-              </div>
-            )))
-        }
-      </div>
 
     </>
   );

@@ -106,13 +106,6 @@ const RecipeDetails = () => {
         )
       }
 
-      {/* <embed
-        data-testid="video"
-        width="300px"
-        type="video/webm"
-        src={ recipeInfo.strYoutube }
-      /> */}
-
       <div
         className="carousel-details"
       >
