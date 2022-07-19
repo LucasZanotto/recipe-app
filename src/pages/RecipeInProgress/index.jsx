@@ -204,14 +204,14 @@ const RecipeInProgress = () => {
             const ingredientRecipe = `${recipeInfo[info]} - `;
             const measureRecipe = `${recipeInfo[`strMeasure${index + 1}`]}`;
             const ingredientAndMeasure = ingredientRecipe + measureRecipe;
-
+            const checkbox = checkRender(ingredientAndMeasure);
             if (recipeInfo[info] && recipeInfo[info].length > 1) {
               return (
                 <div
                   key={ `ingredient-${index}` }
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  {() => checkRender(ingredientAndMeasure)}
+                  {checkbox}
                   <p>
                     { recipeInfo[info]
                     && `${recipeInfo[info]} - ${recipeInfo[`strMeasure${index + 1}`]}`}
