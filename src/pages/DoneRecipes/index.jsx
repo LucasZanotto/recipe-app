@@ -12,7 +12,6 @@ const DoneRecipes = () => {
   return (
     <>
       <Header />
-
       <div>
         <button
           data-testid="filter-by-all-btn"
@@ -38,7 +37,7 @@ const DoneRecipes = () => {
 
       <div>
         {
-          recipes.map((recipe, index) => {
+          recipes && recipes.map((recipe, index) => {
             if (recipe.type === 'food') {
               return (
                 <div key={ `recipe-${index}` }>
@@ -62,17 +61,24 @@ const DoneRecipes = () => {
                   >
                     share
                   </button>
-                  {
+                  <p
+                    key={ `tag-${index}` }
+                    data-testid={ `${index}-horizontal-tag` }
+                  >
+                    {recipe.tag}
+                  </p>
+                  {/* Lógica do Matheus */}
+                  {/* {
                     recipe.tags && recipe.tags.split(',').slice(0, 2)
-                      .map((tagName, tagIndex) => (
-                        <p
+                      .map((tagName, tagIndex) => ( */}
+                  {/* <p
                           key={ `tag-${tagIndex}` }
-                          data-testid={ `${tagIndex}-${tagName}-horizontal-tag` }
+                          data-testid={ `${tagIndex}-horizontal-tag` }
                         >
                           {tagName}
-                        </p>
-                      ))
-                  }
+                        </p> */}
+                  {/* ))
+                  } */}
                 </div>
               );
             }
