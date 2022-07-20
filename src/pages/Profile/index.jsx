@@ -10,7 +10,7 @@ const Profile = () => {
     <>
       <Header />
       <h1 data-testid="profile-email">
-        {emailInfo && emailInfo.username}
+        {emailInfo && emailInfo.email}
       </h1>
       <button
         data-testid="profile-done-btn"

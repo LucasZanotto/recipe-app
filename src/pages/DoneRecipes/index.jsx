@@ -21,7 +21,6 @@ const DoneRecipes = () => {
   return (
     <>
       <Header />
-
       <div>
         <button
           data-testid="filter-by-all-btn"
