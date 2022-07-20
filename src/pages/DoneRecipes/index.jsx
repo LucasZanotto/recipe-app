@@ -65,7 +65,7 @@ const DoneRecipes = () => {
                     key={ `tag-${index}` }
                     data-testid={ `${index}-horizontal-tag` }
                   >
-                    {recipe.tag}
+                    {recipe.tags}
                   </p>
                   {/* Lógica do Matheus */}
                   {/* {
