@@ -63,7 +63,7 @@ const DoneRecipes = () => {
                   </button>
                   <p
                     key={ `tag-${index}` }
-                    data-testid={ `${index}-horizontal-tag` }
+                    data-testid={ `${index}-${recipe.tags}-horizontal-tag` }
                   >
                     {recipe.tags}
                   </p>
