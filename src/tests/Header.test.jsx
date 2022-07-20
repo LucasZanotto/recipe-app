@@ -7,6 +7,17 @@ import App from '../App';
 describe('Testando a tela de login', () => {
   test('Testando os inputs', () => {
     const { history } = renderWithRouter(<App />);
+
+    const emailInput = screen.getByTestId('email-input');
+    userEvent.type(emailInput, 'dsaopdso@dsop.com')
+
+    const passwordInput = screen.getByTestId('password-input');
+    userEvent.type(passwordInput, '34245352325342')
+    
+    const btnLogin = screen.getByTestId('login-submit-btn');
+    userEvent.click(btnLogin);
+
+
     history.push('/foods')
     
     const titleHeader = screen.getByTestId('page-title');
