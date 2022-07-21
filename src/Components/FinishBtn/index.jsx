@@ -1,5 +1,4 @@
 import React from 'react';
-// import React, { useState } from 'react';
 import PropTypes, { string } from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 
