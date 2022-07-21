@@ -43,20 +43,25 @@ export default function Header() {
             isLocation.pathname !== '/profile'
           && isLocation.pathname !== '/done-recipes'
           && isLocation.pathname !== '/favorite-recipes'
-          ) && (
-            <button
-              className={ `btn-header ${!isSearch && 'search-icon-off'}` }
-              type="button"
-              onClick={ () => setIsSearch(!isSearch) }
-            >
-
-              <img
-                data-testid="search-top-btn"
-                src={ searchProfileIcon }
-                alt=""
-              />
-            </button>
           )
+            ? (
+              <button
+                className={ `btn-header ${!isSearch && 'search-icon-off'}` }
+                type="button"
+                onClick={ () => setIsSearch(!isSearch) }
+              >
+
+                <img
+                  data-testid="search-top-btn"
+                  src={ searchProfileIcon }
+                  alt=""
+                />
+              </button>
+            ) : (
+              <div>
+                <p />
+              </div>
+            )
         }
       </div>
 

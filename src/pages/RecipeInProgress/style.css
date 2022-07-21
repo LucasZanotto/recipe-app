@@ -87,53 +87,29 @@
   width: 100%;
 } */
 
-.ingredients-list {
+/* .ingredients-list {
   font-size: 0.9em;
   margin-bottom: 2em;
   padding: 0 2em;
-}
+} */
 
 
-.recipe-instructions {
+/* .recipe-instructions {
   line-height: 1.5em;
   margin-bottom: 2em;
   padding: 0 0.8em;
   text-align: justify;
   white-space: pre-line;
-}
+} */
 
-.youtube-player {
+/* .youtube-player {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.349);
   margin: 2em 0;
   width: 100%;
-}
+} */
 
-.recommendations-container {
-  width: 100vw;
-}
 
-.recommendations-container h3 {
-  font-weight: 900;
-  text-align: center;
-}
-
-.recommendations-container div {
-  font-weight: 900;
-  text-align: center;
-  width: 100vw;
-}
-
-.carousel-details {
-  display: flex;
-  gap: 1em;
-  margin: 0;
-  margin-bottom: 4em;
-  overflow-x: scroll;
-  padding: 0 0.3em;
-  width: 100vw;
-}
-
-.recommend-container {
+/* .recommend-container {
   padding-top: 1em;
   width: 100%;
 }
@@ -147,7 +123,7 @@
 .recommend-container p {
   font-weight: 900;
   text-align: center;
-}
+} */
 
 .ingredients-container {
   color: rgb(42, 42, 42);
@@ -157,12 +133,12 @@
   width: 100%;
 }
 
-.ingredients-container h2 {
+/* .ingredients-container h2 {
   font-size: 1.5em;
   font-weight: 900;
   letter-spacing: 0.25em;
   padding: 0.1em 0.5em;
-}
+} */
 
 .ingredient-div {
   align-items: center;

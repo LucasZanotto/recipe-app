@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
-import imageComp from '../../images/shareIcon.svg';
 import './style.css';
 import handleCheck from '../../services/handleCheck';
 import FinishBtn from '../../Components/FinishBtn';
 import FavoriteBtn from '../../Components/FavoriteBtn';
-
-const copy = require('clipboard-copy');
+import ShareBtn from '../../Components/ShareBtn';
 
 const RecipeInProgress = () => {
   const [recipeInfo, setRecipeInfo] = useState({});
-  const [shared, setShared] = useState(false);
   const { pathname } = useLocation();
   const [ingredientsCheck, setIngredientsCheck] = useState([]);
   const [storagePrev, setStoragePrev] = useState();
@@ -21,7 +18,6 @@ const RecipeInProgress = () => {
   const commonFactor1 = 5;
   const commonFactor2 = 1.5;
   const commonFactor3 = 0.6;
-  const numeroMagicos = 3000;
 
   useEffect(() => {
     const arrayDetail = async () => {
@@ -153,28 +149,11 @@ const RecipeInProgress = () => {
       }
 
       <div className="user-action">
-        <div className="share-background">
-          <button
-            className="share-btn"
-            data-testid="share-btn"
-            type="button"
-            src={ imageComp }
-            onClick={ () => {
-              setShared(!shared);
-              setTimeout(() => {
-                setShared(shared);
-              }, numeroMagicos);
-              copy(`http://localhost:3000/${pathname.split('/')[1]}/${pathname.split('/')[2]}`);
-            } }
-          >
-            <img src={ imageComp } alt="sla" />
-          </button>
-        </div>
+
+        <ShareBtn url={ `${`/${pathname.split('/')[1]}/${pathname.split('/')[2]}`}` } />
 
         <FavoriteBtn recipeInfo={ recipeInfo } />
       </div>
-
-      {shared && <p className="alert-link-copied">Link copied!</p>}
 
       <div className="ingredients-container">
         <h2>Ingredients:</h2>
