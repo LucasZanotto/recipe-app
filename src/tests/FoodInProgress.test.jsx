@@ -10,6 +10,7 @@ describe('Testando progresso da tela', () => {
     // const fetchBackup = global.fetch
     global.fetch = fetch
     const { history } = renderWithRouter(<App />);
+    
     window.document.execCommand = ((param1) => param2 => console.log(param1, param2))
 
     history.push('foods/52771/in-progress');
