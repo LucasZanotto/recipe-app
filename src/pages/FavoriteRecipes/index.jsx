@@ -9,7 +9,6 @@ const FavoriteRecipes = () => {
   return (
     <>
       <Header />
-      <h1>Favorite Recipes</h1>
       <button
         type="button"
         data-testid="filter-by-all-btn"
@@ -28,7 +27,7 @@ const FavoriteRecipes = () => {
       >
         Drink
       </button>
-      {favoriteRecipes.map((favoriteRecipe, index) => (
+      {favoriteRecipes && favoriteRecipes.map((favoriteRecipe, index) => (
         <div key={ index }>
           <img
             src={ favoriteRecipe.image }
@@ -46,6 +45,12 @@ const FavoriteRecipes = () => {
           >
             {favoriteRecipe.name}
           </p>
+          { favoriteRecipe.alcoholicOrNot && (
+            <p
+              data-testid={ `${index}-horizontal-top-text` }
+            >
+              {favoriteRecipe.alcoholicOrNot}
+            </p>)}
           <button
             src={ imageComp }
             type="button"
