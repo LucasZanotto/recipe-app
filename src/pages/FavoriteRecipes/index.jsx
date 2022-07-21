@@ -1,5 +1,7 @@
 import React from 'react';
 import Header from '../../Components/Header';
+import imageComp from '../../images/shareIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
 
 const FavoriteRecipes = () => {
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -45,16 +47,18 @@ const FavoriteRecipes = () => {
             {favoriteRecipe.name}
           </p>
           <button
+            src={ imageComp }
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
           >
-            Share
+            <img src={ imageComp } alt="sla" />
           </button>
           <button
+            src={ blackHeart }
             type="button"
             data-testid={ `${index}-horizontal-favorite-btn` }
           >
-            Favorite
+            <img src={ blackHeart } alt="sla" />
           </button>
         </div>
       ))}
