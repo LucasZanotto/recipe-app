@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
+import './style.css';
 
 const FavoriteBtn = (props) => {
   const [fav, setFav] = useState(false);
@@ -13,7 +14,9 @@ const FavoriteBtn = (props) => {
 
   useEffect(() => {
     const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    const idIndex = -1;
+    const idForDetails = -1;
+    const idForProgress = -2;
+    const idIndex = pathname.includes('in-progress') ? idForProgress : idForDetails;
 
     if (favListLS && Object.keys(recipeInfo).includes('idMeal')) {
       const isFav = favListLS
@@ -80,6 +83,7 @@ const FavoriteBtn = (props) => {
   if (fav) {
     return (
       <button
+        className="fav-btn-marked"
         data-testid="favorite-btn"
         type="button"
         onClick={ handleFav }
@@ -92,6 +96,7 @@ const FavoriteBtn = (props) => {
   }
   return (
     <button
+      className="fav-btn-unmarked"
       data-testid="favorite-btn"
       src={ whiteHeart }
       alt="whiteHeart"

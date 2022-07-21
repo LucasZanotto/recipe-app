@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes, { string } from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
+import './style.css';
 
 const FinishBtn = (props) => {
   const history = useHistory();
@@ -66,6 +67,7 @@ const FinishBtn = (props) => {
   if (ingredientsCheck && (ingredientsCheck.length !== ingredientsLength)) {
     return (
       <button
+        className="finish-recipe-disable"
         data-testid="finish-recipe-btn"
         type="button"
         disabled
@@ -74,9 +76,9 @@ const FinishBtn = (props) => {
       </button>
     );
   }
-
   return (
     <button
+      className="finish-recipe"
       data-testid="finish-recipe-btn"
       type="button"
       onClick={ updateRecipes }

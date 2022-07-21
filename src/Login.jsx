@@ -25,10 +25,10 @@ export default function Login() {
           <h1 className="title-nd">App</h1>
         </div>
         <div className="input-section">
-          <label className="label-container" htmlFor="email">
-            <p className="label-input">
-              Email
-            </p>
+          <p className="label-input">
+            Email
+          </p>
+          <div className="input-background">
             <input
               className="input-login"
               data-testid="email-input"
@@ -39,12 +39,12 @@ export default function Login() {
               name="nome"
               required
             />
-          </label>
+          </div>
           <br />
-          <label className="label-container" htmlFor="password">
-            <p className="label-input">
-              Password
-            </p>
+          <p className="label-input">
+            Password
+          </p>
+          <div className="input-background">
             <input
               className="input-login"
               data-testid="password-input"
@@ -55,7 +55,7 @@ export default function Login() {
               name="password"
               required
             />
-          </label>
+          </div>
           <br />
           <button
             className="btn-login"

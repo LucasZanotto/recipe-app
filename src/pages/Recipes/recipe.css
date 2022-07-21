@@ -3,6 +3,7 @@
   background-color: rgb(236, 234, 234);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .category-container {
@@ -17,8 +18,21 @@
   border-radius: 0 0 15px 15px;
   color: white;
   font-size: 69%;
+  height: 20px;
+  overflow: hidden;
   padding: 4px 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 17%;
+
+  /* width: 90%; */
+}
+
+.btn-category:hover {
+  font-size: 0.5em;
+  line-height: 0.7em;
+  white-space: inherit;
+  word-wrap: break-word;
 }
 
 .container-cards {
@@ -26,6 +40,7 @@
   flex-wrap: wrap;
   gap: 1em;
   justify-content: center;
+  margin-bottom: 5em;
   margin-top: 1em;
   padding: 2px;
 }
@@ -40,8 +55,6 @@
   gap: 5px;
   padding: 5px;
   width: 25vw;
-
-  /* height: 28.5vw; */
 }
 
 a {
