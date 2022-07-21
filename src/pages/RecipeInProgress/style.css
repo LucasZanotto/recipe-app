@@ -44,7 +44,7 @@
   width: 100%;
 }
 
-.recipe-top-info {
+/* .recipe-top-info {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
   padding: 0.1em 0.3em;
   text-align: center;
   width: 100%;
-}
+} */
 
 .ingredients-list {
   font-size: 0.9em;

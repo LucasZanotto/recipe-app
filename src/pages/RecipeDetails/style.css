@@ -58,10 +58,12 @@
 
 .recipe-top-info-img {
   background-attachment: fixed;
-  background-position: 0 -30%;
+  /* background-position: 0 -30%; */
+  /* background-size: 100% 400px; */
   background-size: contain;
-  box-shadow: inset 0 -5px 5px rgba(0, 0, 0, 0.739);
-  height: 200px;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 -5px 5px rgba(0, 0, 0, 0.231);
+  height: 355px;
   width: 100%;
 }
 
@@ -69,18 +71,38 @@
   color: rgb(12, 12, 12);
   font-size: 3em;
   font-weight: 900;
-  margin-top: 1em;
+  margin-bottom: 0;
+  margin-top: 0.2em;
   text-align: center;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.365);
   width: 100%;
   z-index: 1;
 }
 
+.recipe-top-info h1:before {
+  color: rgba(0, 0, 0, 0.968);
+  content: '*';
+  font-size: 0.5em;
+  font-weight: 100;
+  height: 40px;
+  margin-right: 1em;
+  width: 40px;
+}
+
+.recipe-top-info h1:after {
+  color: rgba(0, 0, 0, 0.968);
+  content: '*';
+  font-size: 0.5em;
+  font-weight: 100;
+  height: 40px;
+  margin-left: 1em;
+  width: 40px;
+}
+
 .recipe-top-info p {
   color: rgb(52, 52, 52);
   font-weight: 900;
   margin-bottom: 2em;
-  margin-top: -0.24em;
   padding: 0.1em 0.3em;
   text-align: center;
   width: 100%;
