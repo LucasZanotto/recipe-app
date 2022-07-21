@@ -19,6 +19,7 @@ const RecipeDetails = () => {
   const { pathname } = useLocation();
   const { getAllRecipes, recipes } = useContext(Context);
   const recommendLength = 6;
+  const numeroMagicos = 3000;
 
   useEffect(() => {
     const arrayDetail = async () => {
@@ -141,6 +142,9 @@ const RecipeDetails = () => {
         src={ imageComp }
         onClick={ () => {
           setShared(!shared);
+          setTimeout(() => {
+            setShared(shared);
+          }, numeroMagicos);
           copy(`http://localhost:3000${pathname}`);
         } }
       >
@@ -238,7 +242,6 @@ const RecipeDetails = () => {
             )))
         }
       </div>
-
     </>
   );
 };

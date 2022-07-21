@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import profileIcons from '../../images/profileIcon.svg';
 import searchProfileIcon from '../../images/searchIcon.svg';
 import SearchBar from './components/SearchBar';
+import './style.css';
 
 export default function Header() {
   const [isSearch, setIsSearch] = useState(false);
@@ -17,31 +18,47 @@ export default function Header() {
   };
 
   return (
-    <div>
-      <h1 data-testid="page-title">{pageNames[isLocation.pathname]}</h1>
-      <button type="button" onClick={ () => history.push('/profile') }>
-        <img
-          data-testid="profile-top-btn"
-          src={ profileIcons }
-          alt="Icone"
-        />
-      </button>
-      {
-        (
-          isLocation.pathname !== '/profile'
+    <div className="body-header">
+      <div className={ `header-bar ${!isSearch && 'search-bar-off'}` }>
+        <button
+          className={ `btn-header ${!isSearch && 'search-icon-off'}` }
+          type="button"
+          onClick={ () => history.push('/profile') }
+        >
+          <img
+            data-testid="profile-top-btn"
+            src={ profileIcons }
+            alt="Icone"
+          />
+        </button>
+        <h1
+          className="page-title"
+          data-testid="page-title"
+        >
+          {pageNames[isLocation.pathname]}
+
+        </h1>
+        {
+          (
+            isLocation.pathname !== '/profile'
           && isLocation.pathname !== '/done-recipes'
           && isLocation.pathname !== '/favorite-recipes'
-        ) && (
-          <button type="button" onClick={ () => setIsSearch(!isSearch) }>
+          ) && (
+            <button
+              className={ `btn-header ${!isSearch && 'search-icon-off'}` }
+              type="button"
+              onClick={ () => setIsSearch(!isSearch) }
+            >
 
-            <img
-              data-testid="search-top-btn"
-              src={ searchProfileIcon }
-              alt=""
-            />
-          </button>
-        )
-      }
+              <img
+                data-testid="search-top-btn"
+                src={ searchProfileIcon }
+                alt=""
+              />
+            </button>
+          )
+        }
+      </div>
 
       {
         isSearch && (
