@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import copy from 'clipboard-copy';
 import Header from '../../Components/Header';
 import imageComp from '../../images/shareIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
 
 const FavoriteRecipes = () => {
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const [shared, setShared] = useState(false);
 
   return (
     <>
@@ -55,9 +57,14 @@ const FavoriteRecipes = () => {
             src={ imageComp }
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
+            onClick={ () => {
+              setShared(!shared);
+              copy(`http://localhost:3000/foods/${favoriteRecipe.id}`);
+            } }
           >
             <img src={ imageComp } alt="sla" />
           </button>
+          {shared && <p>Link copied!</p>}
           <button
             src={ blackHeart }
             type="button"
