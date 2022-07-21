@@ -30,11 +30,6 @@ const FavoriteRecipes = () => {
       </button>
       {favoriteRecipes.map((favoriteRecipe, index) => (
         <div key={ index }>
-          <p
-            data-testid={ `${index}-horizontal-name` }
-          >
-            {favoriteRecipe.name}
-          </p>
           <img
             src={ favoriteRecipe.image }
             alt="comida"
@@ -45,6 +40,11 @@ const FavoriteRecipes = () => {
             data-testid={ `${index}-horizontal-top-text` }
           >
             {`${favoriteRecipe.nationality} - ${favoriteRecipe.category}`}
+          </p>
+          <p
+            data-testid={ `${index}-horizontal-name` }
+          >
+            {favoriteRecipe.name}
           </p>
           <button
             src={ imageComp }
@@ -58,11 +58,7 @@ const FavoriteRecipes = () => {
             type="button"
             data-testid={ `${index}-horizontal-favorite-btn` }
           >
-<<<<<<< HEAD
-            <img src={ blackHeart } alt="white" />
-=======
             <img src={ blackHeart } alt="sla" />
->>>>>>> c084463313d0fe673f63bea82d0a75584b7bcd23
           </button>
         </div>
       ))}
