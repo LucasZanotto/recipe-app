@@ -5,6 +5,7 @@ import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import getDrinksFilters from '../../services/api/getDrinksFilters';
 import getFoodsFilters from '../../services/api/getFoodsFilters';
+import './recipe.css';
 
 const Recipes = () => {
   const { recipes, getAllRecipes, getFilteredRecipes } = useContext(Context);
@@ -38,41 +39,45 @@ const Recipes = () => {
   }, [pathname]);
 
   return (
-    <>
+    <div className="recipe-container">
       <Header />
-      <button
-        data-testid="All-category-filter"
-        type="button"
-        onClick={ () => {
-          getAllRecipes(pathname);
-          setIsFiltered(false);
-          setActiveFilter('');
-        } }
-      >
-        All
-      </button>
-      {
-        filters.map((filter) => (
-          <button
-            key={ filter.strCategory }
-            type="button"
-            onClick={ () => {
-              if (activeFilter.includes(filter.strCategory)) {
-                getAllRecipes(pathname);
-                setActiveFilter('');
-                setIsFiltered(false);
-              } else {
-                getFilteredRecipes(pathname, filter.strCategory);
-                setIsFiltered(true);
-                setActiveFilter(filter.strCategory);
-              }
-            } }
-            data-testid={ `${filter.strCategory}-category-filter` }
-          >
-            {filter.strCategory}
-          </button>
-        ))
-      }
+      <div className="category-container">
+        <button
+          className="btn-category"
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ () => {
+            getAllRecipes(pathname);
+            setIsFiltered(false);
+            setActiveFilter('');
+          } }
+        >
+          All
+        </button>
+        {
+          filters.map((filter) => (
+            <button
+              className="btn-category"
+              key={ filter.strCategory }
+              type="button"
+              onClick={ () => {
+                if (activeFilter.includes(filter.strCategory)) {
+                  getAllRecipes(pathname);
+                  setActiveFilter('');
+                  setIsFiltered(false);
+                } else {
+                  getFilteredRecipes(pathname, filter.strCategory);
+                  setIsFiltered(true);
+                  setActiveFilter(filter.strCategory);
+                }
+              } }
+              data-testid={ `${filter.strCategory}-category-filter` }
+            >
+              {filter.strCategory}
+            </button>
+          ))
+        }
+      </div>
 
       {
         category === 'Meal' ? (
@@ -85,65 +90,70 @@ const Recipes = () => {
             && <Redirect to={ `${pathname}/${recipes[0].idDrink}` } />
         )
       }
-
-      {
-        category === 'Drink' ? (
-          recipes.slice(0, maxRecipesLength).map((recipe, index) => {
-            if (recipe.idDrink) {
-              return (
-                <Link key={ recipe.idDrink } to={ `${pathname}/${recipe.idDrink}` }>
-                  <div
-                    data-testid={ `${index}-recipe-card` }
-                  >
-                    <p
-                      data-testid={ `${index}-card-name` }
+      <div className="container-cards">
+        {
+          category === 'Drink' ? (
+            recipes.slice(0, maxRecipesLength).map((recipe, index) => {
+              if (recipe.idDrink) {
+                return (
+                  <Link key={ recipe.idDrink } to={ `${pathname}/${recipe.idDrink}` }>
+                    <div
+                      className="card-recipe"
+                      data-testid={ `${index}-recipe-card` }
                     >
-                      {recipe.strDrink}
-
-                    </p>
-                    <img
-                      src={ recipe.strDrinkThumb }
-                      alt={ recipe.strDrink }
-                      width="100px"
-                      data-testid={ `${index}-card-img` }
-                    />
-                  </div>
-                </Link>
-              );
-            }
-            return null;
-          })
-        ) : (
-          recipes.slice(0, maxRecipesLength).map((recipe, index) => {
-            if (recipe.idMeal) {
-              return (
-                <Link key={ recipe.idMeal } to={ `${pathname}/${recipe.idMeal}` }>
-                  <div
-                    data-testid={ `${index}-recipe-card` }
-                  >
-                    <p
-                      data-testid={ `${index}-card-name` }
+                      <img
+                        className="card-image"
+                        src={ recipe.strDrinkThumb }
+                        alt={ recipe.strDrink }
+                        width="100px"
+                        data-testid={ `${index}-card-img` }
+                      />
+                      <p
+                        className="recipe-name"
+                        data-testid={ `${index}-card-name` }
+                      >
+                        {recipe.strDrink}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              }
+              return null;
+            })
+          ) : (
+            recipes.slice(0, maxRecipesLength).map((recipe, index) => {
+              if (recipe.idMeal) {
+                return (
+                  <Link key={ recipe.idMeal } to={ `${pathname}/${recipe.idMeal}` }>
+                    <div
+                      className="card-recipe"
+                      data-testid={ `${index}-recipe-card` }
                     >
-                      {recipe.strMeal}
+                      <img
+                        className="card-image"
+                        src={ recipe.strMealThumb }
+                        alt={ recipe.strMeal }
+                        width="100px"
+                        data-testid={ `${index}-card-img` }
+                      />
+                      <p
+                        className="recipe-name"
+                        data-testid={ `${index}-card-name` }
+                      >
+                        {recipe.strMeal}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              }
+              return null;
+            })
+          )
 
-                    </p>
-                    <img
-                      src={ recipe.strMealThumb }
-                      alt={ recipe.strMeal }
-                      width="100px"
-                      data-testid={ `${index}-card-img` }
-                    />
-                  </div>
-                </Link>
-              );
-            }
-            return null;
-          })
-        )
-
-      }
+        }
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

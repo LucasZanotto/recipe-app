@@ -18,15 +18,26 @@ const SearchBar = () => {
   };
 
   return (
-    <>
-      <input
-        data-testid="search-input"
-        type="text"
-        onChange={ (e) => setInputSearch(e.target.value) }
-        value={ inputSearch }
-      />
-
+    <div className="body-search">
+      <div className="search-container">
+        <input
+          className="input-search"
+          data-testid="search-input"
+          type="text"
+          onChange={ (e) => setInputSearch(e.target.value) }
+          value={ inputSearch }
+        />
+        <button
+          className="btn-search"
+          type="button"
+          onClick={ handleClick }
+          data-testid="exec-search-btn"
+        >
+          Search
+        </button>
+      </div>
       <div
+        className="radio-container"
         value={ radioState }
         onChange={ (e) => setRadioState(e.target.value) }
       >
@@ -52,14 +63,7 @@ const SearchBar = () => {
         />
         First Letter
       </div>
-      <button
-        type="button"
-        onClick={ handleClick }
-        data-testid="exec-search-btn"
-      >
-        Search
-      </button>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './style.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -17,41 +18,56 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <label htmlFor="email">
-        Email:
-        <input
-          data-testid="email-input"
-          id="email"
-          type="text"
-          onChange={ (e) => setEmail(e.target.value) }
-          value={ email }
-          name="nome"
-          required
-        />
-      </label>
-      <br />
-      <label htmlFor="password">
-        Senha:
-        <input
-          data-testid="password-input"
-          id="password"
-          type="text"
-          onChange={ (e) => setPassword(e.target.value) }
-          value={ password }
-          name="password"
-          required
-        />
-      </label>
-      <br />
-      <button
-        data-testid="login-submit-btn"
-        type="button"
-        disabled={ !(re.test(email) && password.length > seis) }
-        onClick={ handleSubmit }
-      >
-        Entrar
-      </button>
+    <div className="body">
+      <div className="background">
+        <div className="title-container">
+          <h1 className="title-st">Recipes</h1>
+          <h1 className="title-nd">App</h1>
+        </div>
+        <div className="input-section">
+          <p className="label-input">
+            Email
+          </p>
+          <div className="input-background">
+            <input
+              className="input-login"
+              data-testid="email-input"
+              id="email"
+              type="text"
+              onChange={ (e) => setEmail(e.target.value) }
+              value={ email }
+              name="nome"
+              required
+            />
+          </div>
+          <br />
+          <p className="label-input">
+            Password
+          </p>
+          <div className="input-background">
+            <input
+              className="input-login"
+              data-testid="password-input"
+              id="password"
+              type="password"
+              onChange={ (e) => setPassword(e.target.value) }
+              value={ password }
+              name="password"
+              required
+            />
+          </div>
+          <br />
+          <button
+            className="btn-login"
+            data-testid="login-submit-btn"
+            type="button"
+            disabled={ !(re.test(email) && password.length > seis) }
+            onClick={ handleSubmit }
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
