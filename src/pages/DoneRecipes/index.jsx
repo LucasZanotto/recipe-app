@@ -7,9 +7,6 @@ import './style.css';
 const DoneRecipes = () => {
   const [recipes, setRecipes] = useState();
   const [filter, setFilter] = useState('');
-  const commonFactor1 = 5;
-  const commonFactor2 = 1.5;
-  const commonFactor3 = 0.6;
 
   useEffect(() => {
     const storage = JSON.parse(localStorage.getItem('doneRecipes'));
