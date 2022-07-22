@@ -20,10 +20,6 @@ const FavoriteRecipes = () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
   };
 
-  // const handleClickRedirect = () => {
-  //   history.push(`${favoriteRecipe.type}s/${favoriteRecipe.id}`)
-  // };
-
   return (
     <>
       <Header />
