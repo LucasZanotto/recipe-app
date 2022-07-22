@@ -93,7 +93,7 @@ describe('Testa página de receitas favoritas', () => {
 
   test('Testa filtros food, drink e all', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
-    const { debug } = renderWithRouter(<FavoriteRecipes />);
+    renderWithRouter(<FavoriteRecipes />);
 
     const allFilterBtn = screen.getByTestId('filter-by-all-btn');
     const foodFilterBtn = screen.getByTestId('filter-by-food-btn');
@@ -115,7 +115,6 @@ describe('Testa página de receitas favoritas', () => {
     expect(recipeThreeName).not.toBeInTheDocument();
     userEvent.click(allFilterBtn);
 
-    debug();
     const newRecipeOneName = screen.getByTestId('0-horizontal-name');
     const newRecipeTwoName = screen.getByTestId('1-horizontal-name');
     const newRecipeThreeName = screen.getByTestId('2-horizontal-name');
