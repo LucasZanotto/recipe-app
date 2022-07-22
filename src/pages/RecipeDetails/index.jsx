@@ -4,22 +4,18 @@ import HandleRecipeBtn from '../../Components/HandleRecipeBtn';
 import Context from '../../context/context';
 import getDrinkDetails from '../../services/api/getDrinkDetails';
 import getFoodDetails from '../../services/api/getFoodDetails';
-import imageComp from '../../images/shareIcon.svg';
-import whiteHeart from '../../images/whiteHeartIcon.svg';
-import blackHeart from '../../images/blackHeartIcon.svg';
 import './style.css';
-
-const copy = require('clipboard-copy');
+import FavoriteBtn from '../../Components/FavoriteBtn';
+import ShareBtn from '../../Components/ShareBtn';
 
 const RecipeDetails = () => {
-  const [recipeInfo, setRecipeInfo] = useState([]);
-  const [body, setBody] = useState({});
-  const [shared, setShared] = useState(false);
-  const [fav, setFav] = useState(false);
+  const [recipeInfo, setRecipeInfo] = useState({});
   const { pathname } = useLocation();
   const { getAllRecipes, recipes } = useContext(Context);
   const recommendLength = 6;
-  const numeroMagicos = 3000;
+  const commonFactor1 = 5;
+  const commonFactor2 = 1.5;
+  const commonFactor3 = 0.6;
 
   useEffect(() => {
     const arrayDetail = async () => {
@@ -38,211 +34,149 @@ const RecipeDetails = () => {
     arrayDetail();
   }, [pathname]);
 
-  useEffect(() => {
-    const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    const idIndex = -1;
-    if (favListLS && Object.keys(recipeInfo).includes('idMeal')) {
-      const isFav = favListLS
-        .some((info) => (info.id) === pathname.split('/').at(idIndex));
-      setFav(isFav);
-    }
-    if (favListLS && Object.keys(recipeInfo).includes('idDrink')) {
-      const isFav = favListLS
-        .some((info) => (info.id) === pathname.split('/').at(idIndex));
-      setFav(isFav);
-    }
-
-    const categoryLs = (Object.keys(recipeInfo).at(0));
-    if (categoryLs === 'idMeal') {
-      const foodBody = {
-        alcoholicOrNot: '',
-        category: recipeInfo.strCategory,
-        id: recipeInfo.idMeal,
-        image: recipeInfo.strMealThumb,
-        name: recipeInfo.strMeal,
-        nationality: recipeInfo.strArea,
-        type: 'food',
-      };
-      setBody(foodBody);
-    } else {
-      const drinkBody = {
-        alcoholicOrNot: recipeInfo.strAlcoholic,
-        category: recipeInfo.strCategory,
-        id: recipeInfo.idDrink,
-        image: recipeInfo.strDrinkThumb,
-        name: recipeInfo.strDrink,
-        nationality: '',
-        type: 'drink',
-      };
-      setBody(drinkBody);
-    }
-  }, [recipeInfo]);
-
-  const handleFav = () => {
-    const favListLS = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    const categoryLs = (Object.keys(recipeInfo).at(0));
-
-    if ((!favListLS) && Object.keys(recipeInfo).includes(categoryLs)) {
-      const firstList = [body];
-      localStorage.setItem('favoriteRecipes', JSON.stringify(firstList));
-      setFav(true);
-    } else if (favListLS && Object.keys(recipeInfo).includes(categoryLs)) {
-      const isFav = favListLS
-        .some((info) => (info.id) === recipeInfo[categoryLs]);
-      if (!isFav) {
-        favListLS.push(body);
-        localStorage.setItem('favoriteRecipes', JSON.stringify(favListLS));
-        setFav(!isFav);
-      } else {
-        const removeFav = favListLS
-          .filter((recipe) => (recipe.id !== recipeInfo[categoryLs]));
-        localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
-        setFav(!isFav);
-      }
-    }
-  };
-
   return (
-    <>
+    <div className="recipe-details-container">
       <HandleRecipeBtn />
-      <h1>teste recipe</h1>
       {
-        pathname.includes('foods') ? (
-          <div>
-            <img
-              data-testid="recipe-photo"
-              width="250px"
-              src={ recipeInfo.strMealThumb }
-              alt={ recipeInfo.strCategory }
-            />
-            <h1 data-testid="recipe-title">{recipeInfo.strMeal}</h1>
+        (recipeInfo.strMeal || recipeInfo.strDrink)
+        && (pathname.includes('foods') ? (
+          <div
+            className="recipe-top-info"
+          >
+            <div
+              className="recipe-top-info-img"
+              style={ { backgroundImage: `url(${recipeInfo.strMealThumb})` } }
+            >
+              <img
+                data-testid="recipe-photo"
+                src={ recipeInfo.strMealThumb }
+                alt={ recipeInfo.strCategory }
+              />
+            </div>
+            <h1
+              data-testid="recipe-title"
+              style={ { fontSize: `${(commonFactor1)
+              / (recipeInfo.strMeal.length ** (commonFactor3 / commonFactor2))}em` } }
+            >
+              {recipeInfo.strMeal}
+            </h1>
             <p data-testid="recipe-category">{recipeInfo.strCategory}</p>
-
           </div>
         ) : (
-          <div>
+          <div className="recipe-top-info">
 
-            <img
-              data-testid="recipe-photo"
-              width="250px"
-              src={ recipeInfo.strDrinkThumb }
-              alt={ recipeInfo.strDrink }
-            />
-            <h1 data-testid="recipe-title">{recipeInfo.strDrink}</h1>
-            <div data-testid="recipe-category">
-              <p>{recipeInfo.strCategory}</p>
-              <p>{recipeInfo.strAlcoholic}</p>
+            <div
+              className="recipe-top-info"
+            >
+              <div
+                className="recipe-top-info-img"
+                style={ { backgroundImage: `url(${recipeInfo.strDrinkThumb})` } }
+              >
+                <img
+                  data-testid="recipe-photo"
+                  src={ recipeInfo.strDrinkThumb }
+                  alt={ recipeInfo.strDrink }
+                />
+              </div>
+              <h1
+                data-testid="recipe-title"
+                style={ { fontSize: `${(commonFactor1)
+              / (recipeInfo.strDrink.length ** (commonFactor3 / commonFactor2))}em` } }
+              >
+                {recipeInfo.strDrink}
+              </h1>
+              <div data-testid="recipe-category">
+                <p>{recipeInfo.strCategory}</p>
+                <p>{recipeInfo.strAlcoholic}</p>
+              </div>
             </div>
           </div>
-        )
+        ))
       }
-      <button
-        data-testid="share-btn"
-        type="button"
-        src={ imageComp }
-        onClick={ () => {
-          setShared(!shared);
-          setTimeout(() => {
-            setShared(shared);
-          }, numeroMagicos);
-          copy(`http://localhost:3000${pathname}`);
-        } }
-      >
-        <img src={ imageComp } alt="sla" />
-      </button>
 
-      { (fav) ? (
-        <button
-          data-testid="favorite-btn"
-          src={ blackHeart }
-          alt="blackheart"
-          type="button"
-          onClick={ handleFav }
-        >
-          <img src={ blackHeart } alt="black" />
-        </button>
-      ) : (
-        <button
-          data-testid="favorite-btn"
-          src={ whiteHeart }
-          alt="whiteHeart"
-          type="button"
-          onClick={ handleFav }
-        >
-          <img src={ whiteHeart } alt="white" />
-        </button>
-      )}
+      <div className="user-action">
+        <ShareBtn url={ pathname } />
+        <FavoriteBtn recipeInfo={ recipeInfo } />
+      </div>
 
-      {shared && <p>Link copied!</p>}
-
-      {
-        Object.keys(recipeInfo)
-          .filter((a) => a.includes('strIngredient')).map((info, index) => (
-            <div
-              key={ `ingredient-${index}` }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              <p>
-                { recipeInfo[info]
+      <div className="ingredients-container">
+        <h2>Ingredients:</h2>
+        <div className="ingredients-list">
+          {
+            Object.keys(recipeInfo)
+              .filter((a) => a.includes('strIngredient')).map((info, index) => (
+                <div
+                  key={ `ingredient-${index}` }
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                >
+                  <p>
+                    { recipeInfo[info]
                 && `${recipeInfo[info]} : ${recipeInfo[`strMeasure${index + 1}`]}`}
-              </p>
-            </div>
-          ))
-      }
+                  </p>
+                </div>
+              ))
+          }
+        </div>
+      </div>
 
-      <p data-testid="instructions">{recipeInfo.strInstructions}</p>
+      <p
+        className="recipe-instructions"
+        data-testid="instructions"
+      >
+        {recipeInfo.strInstructions}
+
+      </p>
 
       {
-        recipeInfo.strYoutube ? (
+        recipeInfo.strYoutube && (
           <iframe
+            className="youtube-player"
             data-testid="video"
             title={ recipeInfo.strYoutube }
-            width="420"
-            height="315"
             src={ recipeInfo.strYoutube.replace('watch?v=', 'embed/') }
             frameBorder="0"
             allowFullScreen
           />
-        ) : (
-          <iframe
-            data-testid="video"
-            title={ recipeInfo.strYoutube }
-            width="420"
-            height="315"
-            src={ recipeInfo.strYoutube }
-            frameBorder="0"
-            allowFullScreen
-          />
         )
       }
 
-      <div
-        className="carousel-details"
-      >
-        {
-          pathname.includes('foods') ? (
-            recipes.slice(0, recommendLength).map((recommend, index) => (
-              <div
-                key={ `${recommend.strDrink}-${index}` }
-                data-testid={ `${index}-recomendation-card` }
-              >
-                <img width="100px" src={ recommend.strDrinkThumb } alt="recommed" />
-                <p data-testid={ `${index}-recomendation-title` }>{recommend.strDrink}</p>
-              </div>
-            ))
-          ) : (
-            recipes.slice(0, recommendLength).map((recommend, index) => (
-              <div
-                key={ `${recommend.strMeal}-${index}` }
-                data-testid={ `${index}-recomendation-card` }
-              >
-                <img width="100px" src={ recommend.strMealThumb } alt="recommed" />
-                <p data-testid={ `${index}-recomendation-title` }>{recommend.strMeal}</p>
-              </div>
-            )))
-        }
+      <h3>Recommendations</h3>
+      <div className="recommendations-container">
+        <div
+          className="carousel-details"
+        >
+          {
+            pathname.includes('foods') ? (
+              recipes.slice(0, recommendLength).map((recommend, index) => (
+                <div
+                  className="recommend-container"
+                  key={ `${recommend.strDrink}-${index}` }
+                  data-testid={ `${index}-recomendation-card` }
+                >
+                  <img src={ recommend.strDrinkThumb } alt="recommed" />
+                  <p data-testid={ `${index}-recomendation-title` }>
+                    {recommend.strDrink}
+                  </p>
+                </div>
+              ))
+            ) : (
+              recipes.slice(0, recommendLength).map((recommend, index) => (
+                <div
+                  className="recommend-container"
+                  key={ `${recommend.strMeal}-${index}` }
+                  data-testid={ `${index}-recomendation-card` }
+                >
+                  <img src={ recommend.strMealThumb } alt="recommed" />
+                  <p data-testid={ `${index}-recomendation-title` }>
+                    {recommend.strMeal}
+                  </p>
+                </div>
+              )))
+          }
+        </div>
+
       </div>
-    </>
+    </div>
   );
 };
 

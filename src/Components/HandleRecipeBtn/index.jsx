@@ -50,34 +50,29 @@ export default function HandleRecipeBtn() {
     history.push(`/${category}/${id}/in-progress`);
   };
 
-  return (
-    <div
-      className="start-recipe"
-    >
-      {
-        !isDone && (
-          isStarded ? (
-            <button
-              className="start-recipe"
-              type="button"
-              data-testid="start-recipe-btn"
-              onClick={ handleCLick }
-            >
-              Continue Recipe
-            </button>
-          ) : (
-            <button
-              className="start-recipe"
-              type="button"
-              data-testid="start-recipe-btn"
-              onClick={ handleCLick }
-            >
-              Start Recipe
-            </button>
-          )
-        )
+  if (!isDone && isStarded) {
+    return (
+      <button
+        className="start-recipe"
+        type="button"
+        data-testid="start-recipe-btn"
+        onClick={ handleCLick }
+      >
+        Continue Recipe
+      </button>
+    );
+  } if (!isDone && !isStarded) {
+    return (
+      <button
+        className="start-recipe"
+        type="button"
+        data-testid="start-recipe-btn"
+        onClick={ handleCLick }
+      >
+        Start Recipe
+      </button>
+    );
+  }
 
-      }
-    </div>
-  );
+  return null;
 }

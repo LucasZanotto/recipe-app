@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import imageComp from '../../images/shareIcon.svg';
 import Header from '../../Components/Header';
-
-const copy = require('clipboard-copy');
+import ShareBtn from '../../Components/ShareBtn';
+import './style.css';
 
 const DoneRecipes = () => {
   const [recipes, setRecipes] = useState();
-  const [shared, setShared] = useState(false);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -15,13 +13,10 @@ const DoneRecipes = () => {
     setRecipes(storage);
   }, []);
 
-  // const array = 'onion, beef, chicken';
-  // console.log(array.split(','));
-
   return (
-    <>
+    <div className="done-container">
       <Header />
-      <div>
+      <div className="done-filters">
         <button
           data-testid="filter-by-all-btn"
           type="button"
@@ -47,14 +42,16 @@ const DoneRecipes = () => {
         </button>
       </div>
 
-      <div>
+      <div className="cards-group-container">
         {recipes
           && recipes.filter((recipe) => recipe.type.includes(filter))
             .map((recipe, index) => {
-              console.log(recipe);
               if (recipe.type === 'food') {
                 return (
-                  <div key={ `recipe-${index}` }>
+                  <div
+                    className="recipe-done-card"
+                    key={ `recipe-food-${index}` }
+                  >
                     <Link
                       to={ `/${recipe.type}s/${recipe.id}` }
                     >
@@ -66,53 +63,66 @@ const DoneRecipes = () => {
                       />
                     </Link>
 
-                    <p data-testid={ `${index}-horizontal-top-text` }>
-                      { `${recipe.nationality} - ${recipe.category}` }
-                    </p>
-                    <Link
-                      to={ `/${recipe.type}s/${recipe.id}` }
-                    >
-                      <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-                    </Link>
-                    <p
-                      data-testid={ `${index}-horizontal-done-date` }
-                    >
-                      {recipe.doneDate}
-
-                    </p>
-
-                    {
-                      shared && 'Link copied!'
-                    }
-
-                    <button
-                      data-testid={ `${index}-horizontal-share-btn` }
-                      type="button"
-                      src={ imageComp }
-                      onClick={ () => {
-                        setShared(!shared);
-                        copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`);
-                      } }
-                    >
-                      <img src={ imageComp } alt="sla" />
-                    </button>
-                    {
-                      recipe.tags && recipe.tags.toString().split(',')
-                    && recipe.tags.toString().split(',').slice(0, 2)
-                      .map((tagName) => (
-                        <p
-                          key={ `tag-${index}` }
-                          data-testid={ `${index}-${tagName}-horizontal-tag` }
+                    <div className="top-recipe-card-text">
+                      <div className="title-subtitle-done-card">
+                        <Link
+                          to={ `/${recipe.type}s/${recipe.id}` }
                         >
-                          {tagName}
+                          <p
+                            data-testid={ `${index}-horizontal-name` }
+                          >
+                            {recipe.name}
+
+                          </p>
+                        </Link>
+
+                        <p
+                          className="nati-cat-done-card"
+                          data-testid={ `${index}-horizontal-top-text` }
+                        >
+                          { `${recipe.nationality} - ${recipe.category}` }
                         </p>
-                      ))
-                    }
+                      </div>
+
+                      {
+                        recipe.tags && recipe.tags.toString().split(',')
+                        && recipe.tags.toString().split(',').slice(0, 2)
+                          .map((tagName, tagIndex) => (
+                            <p
+                              className="tag-done-recipe-card"
+                              key={ `tag-${index}-${tagIndex}` }
+                              data-testid={ `${index}-${tagName}-horizontal-tag` }
+                            >
+                              {tagName}
+                            </p>
+                          ))
+                      }
+
+                      <div
+                        className="recipe-card-done-footer"
+                      >
+                        <p
+                          className="done-date-recipe"
+                          data-testid={ `${index}-horizontal-done-date` }
+                        >
+                          {recipe.doneDate}
+
+                        </p>
+
+                        <ShareBtn
+                          doneIndex={ index }
+                          url={ `/${recipe.type}s/${recipe.id}` }
+                        />
+                      </div>
+                    </div>
                   </div>
                 );
               }
               return (
-                <div key={ `recipe-${index}` }>
+                <div
+                  className="recipe-done-card"
+                  key={ `recipe-drink-${index}` }
+                >
                   <Link
                     to={ `/${recipe.type}s/${recipe.id}` }
                   >
@@ -124,37 +134,41 @@ const DoneRecipes = () => {
                     />
                   </Link>
 
-                  <p data-testid={ `${index}-horizontal-top-text` }>
-                    { recipe.alcoholicOrNot }
-                  </p>
-                  <Link
-                    to={ `/${recipe.type}s/${recipe.id}` }
-                  >
-                    <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-                  </Link>
-                  <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
+                  <div className="top-recipe-card-text">
+                    <Link
+                      to={ `/${recipe.type}s/${recipe.id}` }
+                    >
+                      <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+                    </Link>
+                    <p
+                      className="tag-done-recipe-card"
+                      data-testid={ `${index}-horizontal-top-text` }
+                    >
+                      { recipe.alcoholicOrNot }
+                    </p>
+                    <div
+                      className="recipe-card-done-footer"
+                    >
+                      <p
+                        className="done-date-recipe"
+                        data-testid={ `${index}-horizontal-done-date` }
+                      >
+                        {recipe.doneDate}
+                      </p>
 
-                  {
-                    shared && 'Link copied!'
-                  }
+                      <ShareBtn
+                        doneIndex={ index }
+                        url={ `/${recipe.type}s/${recipe.id}` }
+                      />
+                    </div>
 
-                  <button
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    type="button"
-                    src={ imageComp }
-                    onClick={ () => {
-                      setShared(!shared);
-                      copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`);
-                    } }
-                  >
-                    <img src={ imageComp } alt="sla" />
-                  </button>
+                  </div>
                 </div>
               );
             })}
       </div>
 
-    </>
+    </div>
   );
 };
 
