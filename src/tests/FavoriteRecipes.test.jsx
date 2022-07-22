@@ -90,4 +90,36 @@ describe('Testa página de receitas favoritas', () => {
     const recipeOneAlcoholic = screen.getAllByTestId('2-horizontal-top-text');
     expect(recipeOneAlcoholic[1].innerHTML).toBe(favoriteRecipesMock[2]['alcoholicOrNot']);
   });
+
+  test('Testa filtros food, drink e all', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    renderWithRouter(<FavoriteRecipes />);
+
+    const allFilterBtn = screen.getByTestId('filter-by-all-btn');
+    const foodFilterBtn = screen.getByTestId('filter-by-food-btn');
+    const drinkFilterBtn = screen.getByTestId('filter-by-drink-btn');
+
+    const recipeOneName = screen.getByTestId('0-horizontal-name');
+    const recipeTwoName = screen.getByTestId('1-horizontal-name');
+    const recipeThreeName = screen.getByTestId('2-horizontal-name');
+    expect(recipeOneName).toBeInTheDocument();
+    expect(recipeTwoName).toBeInTheDocument();
+    expect(recipeThreeName).toBeInTheDocument();
+    userEvent.click(foodFilterBtn);
+
+    expect(recipeThreeName).not.toBeInTheDocument();
+    userEvent.click(drinkFilterBtn);
+
+    expect(recipeOneName.innerHTML).toBe(favoriteRecipesMock[2]['name']);
+    expect(recipeTwoName).not.toBeInTheDocument();
+    expect(recipeThreeName).not.toBeInTheDocument();
+    userEvent.click(allFilterBtn);
+
+    const newRecipeOneName = screen.getByTestId('0-horizontal-name');
+    const newRecipeTwoName = screen.getByTestId('1-horizontal-name');
+    const newRecipeThreeName = screen.getByTestId('2-horizontal-name');
+    expect(newRecipeOneName).toBeInTheDocument();
+    expect(newRecipeTwoName).toBeInTheDocument();
+    expect(newRecipeThreeName).toBeInTheDocument();
+  });
 })
