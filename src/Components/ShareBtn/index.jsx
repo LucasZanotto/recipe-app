@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import imageComp from '../../images/shareIcon.svg';
 import './style.css';
 
@@ -7,10 +8,22 @@ const copy = require('clipboard-copy');
 
 export default function ShareBtn(props) {
   const [shared, setShared] = useState(false);
+  const [testid, setTestid] = useState();
   const numeroMagicos = 2000;
-  const { url } = props;
+  const { url, doneIndex } = props;
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname.includes('done')) {
+      setTestid(`${doneIndex}-horizontal-share-btn`);
+    } else {
+      setTestid('share-btn');
+    }
+  }, [pathname]);
+
   return (
-    <div className="share-background">
+    <div className={ !pathname.includes('done') && 'share-background' }>
       {
         shared
        && (
@@ -21,7 +34,7 @@ export default function ShareBtn(props) {
       }
       <button
         className="share-btn"
-        data-testid="share-btn"
+        data-testid={ testid }
         type="button"
         src={ imageComp }
         onClick={ () => {
@@ -39,4 +52,5 @@ export default function ShareBtn(props) {
 }
 ShareBtn.propTypes = {
   url: PropTypes.string.isRequired,
+  doneIndex: PropTypes.number.isRequired,
 };
