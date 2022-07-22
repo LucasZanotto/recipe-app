@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import copy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import Header from '../../Components/Header';
 import imageComp from '../../images/shareIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
@@ -18,6 +19,10 @@ const FavoriteRecipes = () => {
     setFavoriteRecipes(newFavoriteRecipes);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
   };
+
+  // const handleClickRedirect = () => {
+  //   history.push(`${favoriteRecipe.type}s/${favoriteRecipe.id}`)
+  // };
 
   return (
     <>
@@ -47,22 +52,26 @@ const FavoriteRecipes = () => {
         && favoriteRecipes.filter((recipe) => recipe.type.includes(filter))
           .map((favoriteRecipe, index) => (
             <div key={ index }>
-              <img
-                src={ favoriteRecipe.image }
-                alt="comida"
-                width={ 250 }
-                data-testid={ `${index}-horizontal-image` }
-              />
+              <Link to={ `${favoriteRecipe.type}s/${favoriteRecipe.id}` }>
+                <img
+                  src={ favoriteRecipe.image }
+                  alt="comida"
+                  width={ 250 }
+                  data-testid={ `${index}-horizontal-image` }
+                />
+              </Link>
               <p
                 data-testid={ `${index}-horizontal-top-text` }
               >
                 {`${favoriteRecipe.nationality} - ${favoriteRecipe.category}`}
               </p>
-              <p
-                data-testid={ `${index}-horizontal-name` }
-              >
-                {favoriteRecipe.name}
-              </p>
+              <Link to={ `${favoriteRecipe.type}s/${favoriteRecipe.id}` }>
+                <p
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  {favoriteRecipe.name}
+                </p>
+              </Link>
               { favoriteRecipe.alcoholicOrNot && (
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
