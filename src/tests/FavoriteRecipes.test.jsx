@@ -40,6 +40,7 @@ describe('Testa página de receitas favoritas', () => {
   test('Verifica se receitas favoritas estão na página', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
     renderWithRouter(<FavoriteRecipes />);
+
     const recipeOneImg = screen.getByTestId('0-horizontal-image');
     const recipeOneText = screen.getByTestId('0-horizontal-top-text');
     const recipeOneName = screen.getByTestId('0-horizontal-name');
