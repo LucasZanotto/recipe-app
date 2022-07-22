@@ -68,7 +68,7 @@ const FavoriteRecipes = () => {
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
             onClick={ () => {
-              setShared(!shared);
+              setShared((prevState) => (prevState ? '' : favoriteRecipe.name));
               copy(`http://localhost:3000/foods/${favoriteRecipe.id}`);
             } }
           >
@@ -82,7 +82,7 @@ const FavoriteRecipes = () => {
           >
             <img src={ blackHeart } alt="sla" />
           </button>
-          {shared && <p>Link copied!</p>}
+          {shared === favoriteRecipe.name && <p>Link copied!</p>}
         </div>
       ))}
     </>
