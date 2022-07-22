@@ -140,7 +140,7 @@
 
 .carousel-details {
   display: flex;
-  gap: 1em;
+  gap: 6em;
   margin: 0;
   margin-bottom: 4em;
   overflow-x: scroll;
@@ -156,7 +156,7 @@
 .recommend-container img {
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.461);
-  width: 50vw;
+  width: 30vw;
 }
 
 .recommend-container p {
