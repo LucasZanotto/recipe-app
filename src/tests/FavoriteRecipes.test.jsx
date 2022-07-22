@@ -122,4 +122,30 @@ describe('Testa página de receitas favoritas', () => {
     expect(newRecipeTwoName).toBeInTheDocument();
     expect(newRecipeThreeName).toBeInTheDocument();
   });
+
+  test('Testa o redirecionamento clicando na imagem ou nome', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    const { history, debug } = renderWithRouter(<FavoriteRecipes />);
+    
+    const recipeOneName = screen.getByTestId('0-horizontal-name');
+    userEvent.click(recipeOneName);
+    const pathnameOne = history.location.pathname;
+    expect(pathnameOne).toBe(`/${favoriteRecipesMock[0].type}s/${favoriteRecipesMock[0].id}`);
+
+    history.push('/favorite-recipes');
+    const recipeOneImg = screen.getByTestId('0-horizontal-image');
+    userEvent.click(recipeOneImg);
+    expect(pathnameOne).toBe(`/${favoriteRecipesMock[0].type}s/${favoriteRecipesMock[0].id}`);
+
+    history.push('/favorite-recipes');
+    const recipeTwoName = screen.getByTestId('1-horizontal-name');
+    userEvent.click(recipeTwoName);
+    const pathnameTwo = history.location.pathname;
+    expect(pathnameTwo).toBe(`/${favoriteRecipesMock[1].type}s/${favoriteRecipesMock[1].id}`);
+
+    history.push('/favorite-recipes');
+    const recipeThreeImg = screen.getByTestId('1-horizontal-image');
+    userEvent.click(recipeThreeImg);
+    expect(pathnameTwo).toBe(`/${favoriteRecipesMock[1].type}s/${favoriteRecipesMock[1].id}`);
+  });
 })
