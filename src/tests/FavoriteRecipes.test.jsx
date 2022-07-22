@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import imageComp from '../images/shareIcon.svg';
@@ -23,6 +24,15 @@ const favoriteRecipesMock = [
     "name": "Burek",
     "nationality": "Croatian",
     "type": "food"
+  },
+  {
+    "alcoholicOrNot": "Alcoholic",
+    "category": "Shot",
+    "id": "13501",
+    "image": "https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg",
+    "name": "ABC",
+    "nationality": "",
+    "type": "drink",
   },
 ];
 
@@ -52,5 +62,32 @@ describe('Testa página de receitas favoritas', () => {
     expect(recipeTwoName.innerHTML).toBe(favoriteRecipesMock[1]['name']);
     expect(recipeTwoShareBtn.innerHTML).toContain(imageComp);
     expect(recipeTwoHurtBtn.innerHTML).toContain(blackHeart);
+  });
+
+  test('Verifica botão de copiar e desfavoritar', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    renderWithRouter(<FavoriteRecipes />);
+    window.document.execCommand = ((param1) => param2 => console.log(param1, param2))
+
+    const recipeOneShareBtn = screen.getByTestId('0-horizontal-share-btn');
+    userEvent.click(recipeOneShareBtn);
+    const shareWarning = screen.getByText('Link copied!')
+    expect(shareWarning).toBeInTheDocument();
+    userEvent.click(recipeOneShareBtn);
+    expect(shareWarning).not.toBeInTheDocument();
+
+    const recipeOneHurtBtn = screen.getByTestId('0-horizontal-favorite-btn');
+    const recipeOneName = screen.getByTestId('0-horizontal-name');
+    expect(recipeOneName.innerHTML).toBe(favoriteRecipesMock[0]['name']);
+    userEvent.click(recipeOneHurtBtn);
+    expect(recipeOneName.innerHTML).toBe(favoriteRecipesMock[1]['name']);
+  });
+
+  test('Testa se bebida exibe se é alcóolica ou não', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesMock));
+    renderWithRouter(<FavoriteRecipes />);
+
+    const recipeOneAlcoholic = screen.getAllByTestId('2-horizontal-top-text');
+    expect(recipeOneAlcoholic[1].innerHTML).toBe(favoriteRecipesMock[2]['alcoholicOrNot']);
   });
 })

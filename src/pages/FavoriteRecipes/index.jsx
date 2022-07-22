@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import copy from 'clipboard-copy';
 import Header from '../../Components/Header';
 import imageComp from '../../images/shareIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
 
 const FavoriteRecipes = () => {
-  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [shared, setShared] = useState(false);
+
+  useEffect(() => (
+    setFavoriteRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')))
+  ), []);
+
+  const removeFavoriteRecipe = (recipeId) => {
+    const newFavoriteRecipes = favoriteRecipes.filter(({ id }) => id !== recipeId);
+    setFavoriteRecipes(newFavoriteRecipes);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+  };
 
   return (
     <>
@@ -58,20 +68,21 @@ const FavoriteRecipes = () => {
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
             onClick={ () => {
-              setShared(!shared);
+              setShared((prevState) => (prevState ? '' : favoriteRecipe.name));
               copy(`http://localhost:3000/foods/${favoriteRecipe.id}`);
             } }
           >
             <img src={ imageComp } alt="sla" />
           </button>
-          {shared && <p>Link copied!</p>}
           <button
             src={ blackHeart }
             type="button"
             data-testid={ `${index}-horizontal-favorite-btn` }
+            onClick={ () => removeFavoriteRecipe(favoriteRecipe.id) }
           >
             <img src={ blackHeart } alt="sla" />
           </button>
+          {shared === favoriteRecipe.name && <p>Link copied!</p>}
         </div>
       ))}
     </>
